@@ -299,7 +299,7 @@ document.addEventListener('DOMContentLoaded', function() {
         saveEntry(e);
       }
       else if(e.target.classList.contains('p4')){
-        if(recentKeyStrokes[counter]!=9 && recentKeyStrokes[counter]){
+        if(recentKeyStrokes[counter]!= (13||9)){
           saveEntry(e);
         }
       }
