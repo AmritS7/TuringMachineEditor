@@ -35,13 +35,13 @@
         <div class = "row" style="height:100%">
           <div id = "leftCol" class = "col-sm-3">
             <div id="inputCol">
-              <input id="input" type="text" placeholder="Enter input: ex 2,3"> <p style="color:var(--primaryColor)">.<p>
+              <input id="input" type="text" placeholder="Enter input: ex 2,3"> <p style="visibility:hidden">.<p>
             </div>
               <div id = "userEntry" class="col-sm-12">
                 <div class = "table scrollbar scrollbar-info" id = "quadTable">
                   <div class = "row">
                     <div class = "col-1" style="max-width:11%;flex-basis:11;%">
-                      <p class = "instrucNumber">1</p>
+                      <p class = "instrucNumber" style="visibility:hidden;">1</p>
                     </div>
                     <div class = "col-2">
                       <input type= "number" class = "p1" data-action="answer" data-answer="0"/> <p>,</p>
@@ -73,7 +73,7 @@
 
 
               <div id = "buttonBar" class="col-sm-12">
-                <div class="btn-group">
+                <div id="mainbgroup" class="btn-group">
                   <button type="button" id="clear" class="btn">Clear</button>
                   <button type="button" id="start" class="btn">Start</button>
                </div>
@@ -98,10 +98,16 @@
 
 
           <div id = "importExport" class = "col-sm-12">
-                <button type="button" id="open" class="btn">Open</button>
-                <button type="button" id="save" class="btn">Save</button>
+                <button type="button" id="showInstructions" class="btn" style="margin-left:0px">Show Instructions</button>
+                <button type="button" id="addMarker" class="btn">Add Marker</button>
+                <button type="button" id="delMarker" class="btn">Delete Marker</button>
 
-                <button type="button" id="aboutMe" class="btn" style="float:right">About Me</button>
+
+                <button type="button" id="aboutMe" class="btn" style="float:right; margin-right:0px">About Me</button>
+                <button type="button" id="save" class="btn" style="float:right; margin-right:2px">Save</button>
+                <button type="button" id="open" class="btn" style="float:right; margin-right:2px">Open</button>
+
+
 
           </div>
 

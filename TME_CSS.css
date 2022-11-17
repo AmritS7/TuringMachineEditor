@@ -82,6 +82,8 @@ h4{
   border-bottom: 2px solid  var(--accentColor);
 }
 
+
+
 #tapeInfo{
   height: 30%;
   border-bottom: 2px solid  var(--accentColor);
@@ -121,6 +123,7 @@ input[type=number]{
   margin-bottom: 1rem;
   margin-top: .5rem;
   font-weight: bold;
+  margin-left: 10px;
 }
 
 .p1{
@@ -169,6 +172,7 @@ input[type=number]{
   width: 90%;
   border-radius: 7px;
   transition-duration: .4s;
+  margin-left: 15px;
 }
 
 #newQuad:hover{
@@ -385,4 +389,12 @@ input::-webkit-inner-spin-button {
 
 #tape{
   margin-bottom:10px;
+}
+
+
+
+
+
+#mainbgroup{
+  margin-left: 15px;
 }
