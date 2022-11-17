@@ -10,8 +10,9 @@ var counter=0;
 var currentStep=1;
 var executionNumber=1;
 var tempMap = new Map();
+var instrucVisible = "hidden";
 
-var instructionVisibilityCounter = 0;
+document.querySelector("meta[name=viewport]").setAttribute("content", "width=device-width, initial-scale="+(1/window.devicePixelRatio));
 
 document.addEventListener('DOMContentLoaded', function() {
 
@@ -58,7 +59,7 @@ document.addEventListener('DOMContentLoaded', function() {
      qCounter+=1;
      document.getElementById('toInsert').innerHTML += `<div class = "row">
         <div class = "col-1" style="max-width:11%;flex-basis:11;%">
-          <p class = "instrucNumber" style="visibility:hidden;">${qCounter}</p>
+          <p class = "instrucNumber" style=visibility:${instrucVisible};">${qCounter}</p>
         </div>
         <div class = "col-2">
           <input type= "number" class = "p1" data-action="answer" data-answer="${qCounter-1}""/> <p>,<p>
@@ -150,7 +151,7 @@ document.addEventListener('DOMContentLoaded', function() {
       document.getElementById('toInsert').disabled = true;
       document.getElementById('newQuad').disabled = true;
 
-      for(i = 0; i <currentArray.length+5; i++){
+      for(i = 0; i < document.querySelectorAll('.p1').length; i++){
         if( document.getElementsByClassName('p1')[i]!=null){
          document.getElementsByClassName('p1')[i].disabled = true;
          document.getElementsByClassName('p2')[i].disabled = true;
@@ -177,7 +178,7 @@ document.addEventListener('DOMContentLoaded', function() {
        document.getElementById('toInsert').disabled = false;
          document.getElementById('newQuad').disabled = false;
 
-       for(i = 0; i <currentArray.length+5; i++){
+       for(i = 0; i < document.querySelectorAll('.p1').length; i++){
          if( document.getElementsByClassName('p1')[i]!=null){
           document.getElementsByClassName('p1')[i].disabled = false;
           document.getElementsByClassName('p2')[i].disabled = false;
@@ -426,14 +427,6 @@ document.addEventListener('DOMContentLoaded', function() {
       executionNumber=1;
       tempMap = new Map();
 
-
-
-      // currentTape = [];
-      // currentPointer = [];
-      // currentArray = [];
-      //
-      // map = new Map();
-      // tempMap = new Map();
     }
 
 
@@ -467,6 +460,7 @@ document.addEventListener('DOMContentLoaded', function() {
               else if (currentArray[i].Position3=="1"){
                 currentTape[currentPointerPosition] = "1";
                 if(currentPointerPosition==0){
+                    currentPointer.unshift("");
                     currentTape.unshift("B");
                     addedOnLeft = true;
                 }
@@ -518,7 +512,7 @@ document.addEventListener('DOMContentLoaded', function() {
       var currTapeOut = "";
       for(i=0; i<currentTape.length; i++){
         if(currentPointer[i]=='p'){
-          currPointerOut +=	`<div class="inPointer"> &#9661 </div>`;
+          currPointerOut +=	`<div class="inPointer" style="color:var(--accentColor)"> &#9660 </div>`;
         }
         else{
           currPointerOut +=	`<div class="inPointer"></div>`
@@ -587,7 +581,7 @@ function addB(e){
     qCounter+=1;
     document.getElementById('toInsert').innerHTML += `<div class = "row">
        <div class = "col-1" style="max-width:11%;flex-basis:11;%">
-         <p class = "instrucNumber" style="visibility:hidden;">${qCounter}</p>
+         <p class = "instrucNumber" style="visibility:${instrucVisible};">${qCounter}</p>
        </div>
        <div class = "col-2">
          <input type= "number" class = "p1" data-action="answer" data-answer="${qCounter-1}""/> <p>,<p>
@@ -667,7 +661,7 @@ function del(e){
        qCounter++;
     document.getElementById('toInsert').innerHTML += `<div class = "row">
        <div class = "col-1" style="max-width:11%;flex-basis:11;%">
-         <p class = "instrucNumber" style="visibility:hidden;">${qCounter}</p>
+         <p class = "instrucNumber" style="visibility:${instrucVisible};">${qCounter}</p>
        </div>
        <div class = "col-2">
          <input type= "number" class = "p1" data-action="answer" data-answer="${qCounter-1}""/> <p>,<p>
@@ -712,12 +706,13 @@ function del(e){
 
 
 function showIns(){
-  var vis = document.getElementsByClassName("instrucNumber")[0].style.visibility;
 
-  if(vis=="hidden"){
+  if(instrucVisible=="hidden"){
     for (let el of document.querySelectorAll('.instrucNumber')) el.style.visibility = 'visible';
+    instrucVisible = "visible";
   }
   else{
     for (let el of document.querySelectorAll('.instrucNumber')) el.style.visibility = 'hidden';
+    instrucVisible = "hidden";
   }
 }
