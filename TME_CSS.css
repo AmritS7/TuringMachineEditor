@@ -391,10 +391,19 @@ input::-webkit-inner-spin-button {
   margin-bottom:10px;
 }
 
-
-
-
-
 #mainbgroup{
   margin-left: 15px;
+}
+
+@media (-webkit-device-pixel-ratio: 1.25) {
+  * {
+    zoom: 0.965;
+  }
+}
+
+
+@media (-webkit-device-pixel-ratio: 1.50) {
+  * {
+    zoom: 0.935;
+  }
 }
