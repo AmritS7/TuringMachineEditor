@@ -158,8 +158,13 @@ document.addEventListener('DOMContentLoaded', function() {
       document.getElementById('cout').innerHTML += "<p>Setting up Tape...<p>";
       document.getElementById('pQuad').innerHTML = "Not executed";
       document.getElementById('cState').innerHTML = `Q1: B`;
-      document.getElementById("nQuad").innerHTML = `Q${currentStep}, ${currentArray[0].Position2.toUpperCase()}, ${currentArray[0].Position3.toUpperCase()}, Q${currentArray[0].Position4}`;
       document.getElementById("cout").innerHTML += `<p>Execution: #0 <br> Not Executed <br> ${currentArrayForOutput(currentTape, currentPointerPosition)}`
+      if(currentArray[0].Position2.toUpperCase()=="B"){
+      document.getElementById("nQuad").innerHTML = `Q${currentStep}, ${currentArray[0].Position2.toUpperCase()}, ${currentArray[0].Position3.toUpperCase()}, Q${currentArray[0].Position4}`;
+      }
+      else {
+        document.getElementById("nQuad").innerHTML = "None Available";
+      }
       }
 
     }
