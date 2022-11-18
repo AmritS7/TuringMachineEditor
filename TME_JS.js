@@ -784,7 +784,7 @@ function highlight(e){
     else if(e.target.innerHTML == "B"||"1"){
       var toModify = e.target.dataset.answer;
       currentTape[toModify].color = "red";
-      e.target.innerHTML = `<h3 style="color:red" data-action="answer" data-answer=${toModify}>${e.target.innerHTML}</h3>`
+      e.target.style.color="red";
       highlightCounter=0;
       document.removeEventListener("click", highlight);
     }
@@ -821,7 +821,7 @@ function deleteHighlight(e){
     else if(e.target.innerHTML == "B"||"1"){
       var toModify = e.target.dataset.answer;
       currentTape[toModify].color = "regular";
-      e.target.innerHTML = `<h3 style="color:var(--textColor)" data-action="answer" data-answer=${toModify}>${e.target.innerHTML}</h3>`
+      e.target.style.color = "var(--textColor)";
       deleteCounter=0;
       document.removeEventListener("click", deleteHighlight);
     }
