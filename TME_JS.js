@@ -11,6 +11,8 @@ var currentStep=1;
 var executionNumber=1;
 var tempMap = new Map();
 var instrucVisible = "hidden";
+var highlightCounter = 0;
+var deleteCounter = 0;
 
 document.querySelector("meta[name=viewport]").setAttribute("content", "width=device-width, initial-scale="+(1/window.devicePixelRatio));
 
@@ -38,7 +40,11 @@ document.addEventListener('DOMContentLoaded', function() {
 
   clear.addEventListener("click", clearAll);
 
-  showInstructions.addEventListener("click", showIns)
+  showInstructions.addEventListener("click", showIns);
+
+  addMarker.addEventListener("click", setHeighlightCounter);
+
+  delMarker.addEventListener("click", setDeleteCounter);
 
 });
 
@@ -107,13 +113,25 @@ document.addEventListener('DOMContentLoaded', function() {
           currentPointer = [];
         }
       else {
-          currentTape.push("B");
+          tapeOutput = {
+            text: "B",
+            color: "regular"
+          }
+          currentTape.push(tapeOutput);
           while(inputList[i]>0){
-            currentTape.push("1");
+            tapeOutput = {
+              text: "1",
+              color: "regular"
+            }
+            currentTape.push(tapeOutput);
             inputList[i] -= 1;
           }
           if(i==inputList.length-1){
-            currentTape.push("B");
+            tapeOutput = {
+              text: "B",
+              color: "regular"
+            }
+            currentTape.push(tapeOutput);
           }
         }
       }
@@ -437,12 +455,16 @@ document.addEventListener('DOMContentLoaded', function() {
       var addedOnLeft = false;
       for(i = 0; i<currentArray.length; i++){
         if(currentArray[i].Position1==currentStep){
-          if(currentArray[i].Position2.toUpperCase()==currentTape[currentPointerPosition]){
+          if(currentArray[i].Position2.toUpperCase()==currentTape[currentPointerPosition].text){
               //if right move pointer right
               if (currentArray[i].Position3=="r"){
                 currentPointer.unshift("");
                 if(currentPointerPosition==currentTape.length-1){
-                  currentTape.push("B");
+                  tapeOutput = {
+                    text: "B",
+                    color: "regular"
+                  }
+                  currentTape.push(tapeOutput);
                   addedOnRight = true;
                 }
                 currentPointerPosition++;
@@ -453,24 +475,44 @@ document.addEventListener('DOMContentLoaded', function() {
                 currentPointerPosition--;
                 }
                 else{
-                  currentTape.unshift("B");
+                  tapeOutput = {
+                    text: "B",
+                    color: "regular"
+                  }
+                  currentTape.unshift(tapeOutput);
                   addedOnLeft = true;
                 }
               }
               else if (currentArray[i].Position3=="1"){
-                currentTape[currentPointerPosition] = "1";
+                tapeOutput = {
+                  text: "1",
+                  color: "regular"
+                }
+                currentTape[currentPointerPosition] = tapeOutput;
                 if(currentPointerPosition==0){
                     currentPointer.unshift("");
-                    currentTape.unshift("B");
+                    tapeOutput = {
+                      text: "B",
+                      color: "regular"
+                    }
+                    currentTape.unshift(tapeOutput);
                     addedOnLeft = true;
                 }
                 else if(currentPointerPosition==currentTape.length-1){
-                    currentTape.push("B");
+                  tapeOutput = {
+                    text: "B",
+                    color: "regular"
+                  }
+                  currentTape.push(tapeOutput);
                     addedOnRight = true;
                 }
               }
               else if(currentArray[i].Position3=="b"){
-                currentTape[currentPointerPosition] = "B";
+                tapeOutput = {
+                  text: "B",
+                  color: "regular"
+                }
+                currentTape[currentPointerPosition] = tapeOutput;
               }
 
               document.getElementById("pQuad").innerHTML = `Q${currentStep}, ${currentArray[i].Position2.toUpperCase()}, ${currentArray[i].Position3.toUpperCase()}, Q${currentArray[i].Position4}`;
@@ -479,7 +521,7 @@ document.addEventListener('DOMContentLoaded', function() {
               cout.scrollTop = cout.scrollHeight;
               executionNumber++;
               currentStep = cP4;
-              document.getElementById("cState").innerHTML = `Q${currentStep}: ${currentTape[currentPointerPosition]}`
+              document.getElementById("cState").innerHTML = `Q${currentStep}: ${currentTape[currentPointerPosition].text}`
               document.getElementById("nQuad").innerHTML = peek(currentStep);
 
               updateTapeAndPointer();
@@ -518,12 +560,25 @@ document.addEventListener('DOMContentLoaded', function() {
           currPointerOut +=	`<div class="inPointer"></div>`
         }
         if(i==0){
-          currTapeOut += `<div class="inTape" style="border-top-left-radius:20px; border-bottom-left-radius:20px;"><h3 style="color:var(--textColor)">${currentTape[i]}<h3></div>`;
+          if(currentTape[i].color == "red"){
+          currTapeOut += `<div class="inTape" style="border-top-left-radius:20px; border-bottom-left-radius:20px;"><h3 style="color:red" data-action="answer" data-answer=${i}>${currentTape[i].text}<h3></div>`;
+          }
+          else {
+            currTapeOut += `<div class="inTape" style="border-top-left-radius:20px; border-bottom-left-radius:20px;"><h3 style="color:var(--textColor)" data-action="answer" data-answer=${i}>${currentTape[i].text}<h3></div>`;
+          }
         }
         else if(i==currentTape.length-1){
-          currTapeOut += `<div class="inTape" style="border-top-right-radius:20px; border-bottom-right-radius:20px;"><h3 style="color:var(--textColor)">${currentTape[i]}<h3></div>`;
+          if(currentTape[i].color == "red"){
+          currTapeOut += `<div class="inTape" style="border-top-right-radius:20px; border-bottom-right-radius:20px;"><h3 style="color:red" data-action="answer" data-answer=${i}>${currentTape[i].text}<h3></div>`;
+          }
+          else{
+            currTapeOut += `<div class="inTape" style="border-top-right-radius:20px; border-bottom-right-radius:20px;"><h3 style="color:var(--textColor)" data-action="answer" data-answer=${i}>${currentTape[i].text}<h3></div>`;
+          }
         }
-        else currTapeOut += `<div class="inTape"><h3 style="color:var(--textColor)">${currentTape[i]}<h3></div>`;
+        else if (currentTape[i].color == "red"){
+          currTapeOut += `<div class="inTape"><h3 style="color:red" data-action="answer" data-answer=${i}>${currentTape[i].text}<h3></div>`
+        }
+        else currTapeOut += `<div class="inTape"><h3 style="color:var(--textColor)" data-action="answer" data-answer=${i}>${currentTape[i].text}<h3></div>`;
       }
 
       document.querySelector("#pointer").innerHTML=currPointerOut;
@@ -533,14 +588,14 @@ document.addEventListener('DOMContentLoaded', function() {
     function peek(cStep){
       for(i = 0; i<currentArray.length; i++){
         if(currentArray[i].Position1==cStep){
-          if(currentArray[i].Position2.toUpperCase()==currentTape[currentPointerPosition]){
+          if(currentArray[i].Position2.toUpperCase()==currentTape[currentPointerPosition].text){
             return (`Q${cStep}, ${currentArray[i].Position2.toUpperCase()}, ${currentArray[i].Position3.toUpperCase()}, Q${currentArray[i].Position4}`);
           }
     }
   }
   var finalResult = 0;
   for(i = 0; i<currentTape.length; i++){
-    if(currentTape[i]=="1"){
+    if(currentTape[i].text=="1"){
       finalResult++;
     }
   }
@@ -555,10 +610,10 @@ function currentArrayForOutput(cTape, cPPos){
   var toReturn = "";
   for(i = 0; i<cTape.length; i++){
     if(i == cPPos){
-      toReturn += "||" + cTape[i] + "||";
+      toReturn += "||" + cTape[i].text + "||";
     }
     else{
-      toReturn += cTape[i];
+      toReturn += cTape[i].text;
     }
   }
   return toReturn;
@@ -630,7 +685,6 @@ function addB(e){
   }
   }
 
-  console.log(currentArray);
   for(i=0;i<map.size;i++){
     if(i<=qC){
       tempMap.set(String(i), map.get(String(i)));
@@ -700,8 +754,6 @@ function del(e){
   }
     map = tempMap;
 
-    console.log(currentArray);
-    console.log(map);
 }
 
 
@@ -714,5 +766,70 @@ function showIns(){
   else{
     for (let el of document.querySelectorAll('.instrucNumber')) el.style.visibility = 'hidden';
     instrucVisible = "hidden";
+  }
+}
+
+
+function highlight(e){
+
+
+  if(highlightCounter==1){
+    if(e.target.classList.contains("inTape")){
+      var toModify = e.target.children[0].dataset.answer;
+      currentTape[toModify].color = "red";
+      e.target.children[0].style.color="red";
+      highlightCounter=0;
+      document.removeEventListener("click", highlight);
+    }
+    else if(e.target.innerHTML == "B"||"1"){
+      var toModify = e.target.dataset.answer;
+      currentTape[toModify].color = "red";
+      e.target.innerHTML = `<h3 style="color:red" data-action="answer" data-answer=${toModify}>${e.target.innerHTML}</h3>`
+      highlightCounter=0;
+      document.removeEventListener("click", highlight);
+    }
+  }
+  else{
+    highlightCounter=highlightCounter-1;
+    if(highlightCounter==0){
+    document.removeEventListener("click", highlight);
+    }
+  }
+}
+
+function setHeighlightCounter(e){
+  highlightCounter = 2;
+
+  document.addEventListener("click", highlight);
+}
+
+function setDeleteCounter(e){
+  deleteCounter = 2;
+
+  document.addEventListener("click", deleteHighlight);
+}
+
+function deleteHighlight(e){
+  if(deleteCounter==1){
+    if(e.target.classList.contains("inTape")){
+      var toModify = e.target.children[0].dataset.answer;
+      currentTape[toModify].color = "regular";
+      e.target.children[0].style.color="var(--textColor)";
+      deleteCounter=0;
+      document.removeEventListener("click", deleteHighlight);
+    }
+    else if(e.target.innerHTML == "B"||"1"){
+      var toModify = e.target.dataset.answer;
+      currentTape[toModify].color = "regular";
+      e.target.innerHTML = `<h3 style="color:var(--textColor)" data-action="answer" data-answer=${toModify}>${e.target.innerHTML}</h3>`
+      deleteCounter=0;
+      document.removeEventListener("click", deleteHighlight);
+    }
+  }
+  else{
+    deleteCounter=deleteCounter-1;
+    if(deleteCounter==0){
+    document.removeEventListener("click", deleteHighlight);
+    }
   }
 }
