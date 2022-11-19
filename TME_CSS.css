@@ -395,6 +395,31 @@ input::-webkit-inner-spin-button {
   margin-left: 15px;
 }
 
+.modal-content{
+  background-color: var(--primaryColor);
+}
+
+hr{
+  background-color: var(--accentColor);
+}
+
+.modal-header{
+  border-bottom: 1px solid var(--accentColor);
+  background-color: var(--secondaryColor);
+}
+
+.modal-footer{
+  border-top: 1px solid var(--accentColor);
+}
+
+.modal-dialog{
+  max-width: 650px;
+}
+#cpQuads{
+  background-color: var(--secondaryColor);
+  color: var(--textColor);
+}
+
 @media (-webkit-device-pixel-ratio: 1.25) {
   * {
     zoom: 0.965;

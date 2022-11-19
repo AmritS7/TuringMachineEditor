@@ -10,6 +10,7 @@
      <script src="https://cdn.jsdelivr.net/npm/handlebars@latest/dist/handlebars.js"></script>
      <link rel="stylesheet" href="TME_CSS.css">
      <script src="TME_JS.js"></script>
+     <script src="http://cdn.jsdelivr.net/g/filesaver.js"></script>
 
    </head>
 
@@ -103,9 +104,9 @@
                 <span id="markerIndicator" style="visibility:hidden;">&#11044;</span>
 
 
-                <button type="button" id="aboutMe" class="btn" style="float:right; margin-right:0px">About Me</button>
-                <button type="button" id="save" class="btn" style="float:right; margin-right:2px">Save</button>
-                <button type="button" id="open" class="btn" style="float:right; margin-right:2px">Open</button>
+                <button type="button" id="about" class="btn" style="float:right; margin-right:0px" onclick="window.open('https://github.com/AmritS7/TuringMachineEditor','_blank')">About</button>
+                <button type="button" id="save" class="btn" style="float:right; margin-right:2px" onclick="toggleDownload()">Save</button>
+                <button type="button" id="open" class="btn" style="float:right; margin-right:2px" onclick="clearModal()" data-toggle="modal" data-target="#openModal">Open</button>
 
 
 
@@ -138,6 +139,35 @@
 
         </div>
         </div>
+
+
+
+    <div id="openModal" class="modal fade" role="dialog">
+        <div class="modal-dialog">
+
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title">Open</h4>
+        <button type="button" class="close" data-dismiss="modal" style="color:var(--textColor)">&times;</button>
+      </div>
+      <div class="modal-body">
+        <p>Import a File (only accepts .txt):</p>
+        <input type="file" id="upload" accept=".txt" />
+        <hr>
+
+      <p>Or copy and paste below:</p>
+      <textarea id="cpQuads" placeholder="Enter Quadruples..." rows="20" cols="67"></textarea>
+
+
+      </div>
+      <div class="modal-footer">
+        <button type="button" onclick="saveImport()" class="btn btn-default">Save</button>
+      </div>
+    </div>
+
+  </div>
+</div>
 
 </body>
 </html>

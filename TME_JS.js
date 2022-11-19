@@ -13,10 +13,13 @@ var tempMap = new Map();
 var instrucVisible = "hidden";
 var highlightCounter = 0;
 var deleteCounter = 0;
+var inputFile = "";
 
 document.querySelector("meta[name=viewport]").setAttribute("content", "width=device-width, initial-scale="+(1/window.devicePixelRatio));
 
 document.addEventListener('DOMContentLoaded', function() {
+
+  storageCheck();
 
   colorSwitch.addEventListener('change', colorChange);
 
@@ -45,6 +48,8 @@ document.addEventListener('DOMContentLoaded', function() {
   addMarker.addEventListener("click", setHeighlightCounter);
 
   delMarker.addEventListener("click", setDeleteCounter);
+
+  upload.addEventListener("change", checkUpload);
 
 });
 
@@ -232,6 +237,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
     function colorChange(){
       if (this.checked) {
+        localStorage.setItem("color", "dark")
         var r = document.querySelector(':root');
         r.style.setProperty('--primaryColor', '#333');
         r.style.setProperty('--secondaryColor', '#292929');
@@ -240,6 +246,7 @@ document.addEventListener('DOMContentLoaded', function() {
         r.style.setProperty('--btnColor', 'black');
         }
        else {
+          localStorage.setItem("color", "light")
           var r = document.querySelector(':root');
            r.style.setProperty('--primaryColor', 'white');
            r.style.setProperty('--secondaryColor', 'WhiteSmoke');
@@ -370,7 +377,7 @@ document.addEventListener('DOMContentLoaded', function() {
   function updateArray(e){
     instrucNumberToUpdate = e.target.dataset.answer;
     var toEdit = e.target.className;
-    var updatedValue = document.getElementsByClassName(toEdit)[e.target.dataset.answer].value;
+    var updatedValue = document.getElementsByClassName(toEdit)[e.target.dataset.answer].value.toUpperCase();
 
     if(toEdit=="p1" || toEdit=="p2"){
       if(map.has(instrucNumberToUpdate)){
@@ -407,8 +414,8 @@ document.addEventListener('DOMContentLoaded', function() {
     var currQuad = {
       InstructionNumber: e.target.dataset.answer,
       Position1: document.getElementsByClassName("p1")[e.target.dataset.answer].value,
-      Position2: document.getElementsByClassName("p2")[e.target.dataset.answer].value,
-      Position3: document.getElementsByClassName("p3")[e.target.dataset.answer].value,
+      Position2: document.getElementsByClassName("p2")[e.target.dataset.answer].value.toUpperCase(),
+      Position3: document.getElementsByClassName("p3")[e.target.dataset.answer].value.toUpperCase(),
       Position4: document.getElementsByClassName("p4")[e.target.dataset.answer].value,
     }
 
@@ -467,14 +474,13 @@ document.addEventListener('DOMContentLoaded', function() {
 
 
     function doStep(){
-      console.log(currentArray);
       var addedOnRight = false;
       var addedOnLeft = false;
       for(i = 0; i<currentArray.length; i++){
         if(currentArray[i].Position1==currentStep){
           if(currentArray[i].Position2.toUpperCase()==currentTape[currentPointerPosition].text){
               //if right move pointer right
-              if (currentArray[i].Position3=="r"){
+              if (currentArray[i].Position3=="R"){
                 currentPointer.unshift("");
                 if(currentPointerPosition==currentTape.length-1){
                   tapeOutput = {
@@ -486,7 +492,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 }
                 currentPointerPosition++;
               }
-              else if (currentArray[i].Position3=="l"){
+              else if (currentArray[i].Position3=="L"){
                 if(currentPointerPosition!=0){
                 currentPointer.splice(0, 1);
                 currentPointerPosition--;
@@ -524,7 +530,7 @@ document.addEventListener('DOMContentLoaded', function() {
                     addedOnRight = true;
                 }
               }
-              else if(currentArray[i].Position3=="b"){
+              else if(currentArray[i].Position3=="B"){
                 tapeOutput = {
                   text: "B",
                   color: "regular"
@@ -561,7 +567,7 @@ document.addEventListener('DOMContentLoaded', function() {
        do{
        nextStepExists = doStep();
         }
-        while (nextStepExists==true && (Date.now()-startTime)<5000);
+        while (nextStepExists==true && (Date.now()-startTime)<10000);
 
   }
 
@@ -866,9 +872,168 @@ function deleteHighlight(e){
   else{
     deleteCounter=deleteCounter-1;
     if(deleteCounter==0){
-      console.log("hide")
     document.getElementById("markerIndicator").style.visibility = "hidden";
     document.removeEventListener("click", deleteHighlight);
     }
   }
 }
+
+function clearModal(){
+  document.getElementById("upload").value = "";
+  inputFile = "";
+  document.getElementById("cpQuads").value = null;
+}
+
+function saveImport(){
+  var cArray = [];
+  var isValid = 0;
+  if(inputFile!=""){
+    isValid=1;
+    var fileContentArray = inputFile.split(/\r\n|\n/);
+    var i = 0;
+     fileContentArray.every((line) => {
+       var quadToInsert = (line.split(','));
+       if((!isNaN(quadToInsert[0])) && ((quadToInsert[1]=="1")||(quadToInsert[1]=="B")||(quadToInsert[1]=="b")) && ((quadToInsert[2]=="1")||(quadToInsert[2]=="B")||(quadToInsert[2]=="b")||(quadToInsert[2]=="R")||(quadToInsert[2]=="r")||(quadToInsert[2]=="L")||(quadToInsert[2]=="l")) && (!isNaN(quadToInsert[3]))){
+         var currQuad = {
+           InstructionNumber: String(i),
+           Position1: quadToInsert[0],
+           Position2: quadToInsert[1].toUpperCase(),
+           Position3: quadToInsert[2].toUpperCase(),
+           Position4: quadToInsert[3],
+         }
+         cArray.push(currQuad);
+         i++;
+         return true;
+       }
+       else if(line==""){
+         return true;
+       }
+      else{
+        alert("Input file has incorrect format")
+        isValid=2;
+        cArray = [];
+        document.getElementById("upload").value = "";
+        inputFile="";
+        console.log("asddsa");
+        return false;
+      }
+    });
+    }
+
+    else if(document.getElementById("cpQuads").value!=""){
+      var cp = document.getElementById("cpQuads").value;
+      isValid=1;
+      var cpContent = cp.split(/\r\n|\n/);
+      var i = 0;
+       cpContent.every((line) => {
+         var quadToInsert = (line.split(','));
+         if((!isNaN(quadToInsert[0])) && ((quadToInsert[1]=="1")||(quadToInsert[1]=="B")||(quadToInsert[1]=="b")) && ((quadToInsert[2]=="1")||(quadToInsert[2]=="B")||(quadToInsert[2]=="b")||(quadToInsert[2]=="R")||(quadToInsert[2]=="r")||(quadToInsert[2]=="L")||(quadToInsert[2]=="l")) && (!isNaN(quadToInsert[3]))){
+           var currQuad = {
+             InstructionNumber: String(i),
+             Position1: quadToInsert[0],
+             Position2: quadToInsert[1].toUpperCase(),
+             Position3: quadToInsert[2].toUpperCase(),
+             Position4: quadToInsert[3],
+           }
+           cArray.push(currQuad);
+           i++;
+           return true;
+         }
+        else if(line==""){
+          return true;
+        }
+        else{
+          alert("Input has incorrect format")
+          cArray = [];
+          isValid=2;
+          return false;
+        }
+      });
+    }
+
+
+    if(isValid==1){
+    clearAll();
+    currentArray = cArray;
+    for(i=0; i<currentArray.length-1;i++){
+        addQuadForImport();
+    }
+    for(i=0;i<currentArray.length;i++){
+      var instruction = currentArray[i].InstructionNumber;
+      document.getElementsByClassName("p1")[instruction].value = currentArray[i].Position1;
+      document.getElementsByClassName("p2")[instruction].value = currentArray[i].Position2;
+      document.getElementsByClassName("p3")[instruction].value = currentArray[i].Position3;
+      document.getElementsByClassName("p4")[instruction].value = currentArray[i].Position4;
+    }
+    $("#openModal").modal("hide");
+    }
+
+
+    if(isValid==0){
+        $("#openModal").modal("hide");
+    }
+    }
+
+
+
+function checkUpload(){
+    var fr = new FileReader();
+    fr.readAsText(this.files[0]);
+    fr.onload = function () {
+      inputFile = fr.result;
+    };
+  }
+
+  function addQuadForImport(){
+    qCounter+=1;
+    document.getElementById('toInsert').innerHTML += `<div class = "row">
+       <div class = "col-1" style="max-width:11%;flex-basis:11;%">
+         <p class = "instrucNumber" style=visibility:${instrucVisible};">${qCounter}</p>
+       </div>
+       <div class = "col-2">
+         <input type= "number" class = "p1" data-action="answer" data-answer="${qCounter-1}""/> <p>,<p>
+       </div>
+       <div class = "col-2">
+         <input type= "text" class = "p2" data-action="answer" data-answer="${qCounter-1}" maxlength="1" onkeyup="checkEntryp2(this)"/> <p>,<p>
+       </div>
+       <div class = "col-2">
+         <input type= "text" class = "p3" data-action="answer" data-answer="${qCounter-1}" maxlength="1" onkeyup="checkEntryp3(this)"/> <p>,<p>
+       </div>
+       <div class = "col-2">
+         <input type= "number" class = "p4" data-action="answer" data-answer="${qCounter-1}""/>
+       </div>
+       <div class = "col-2">
+       <div class="btn-group" id="entryButtons">
+         <button type="button" class="addBetween" data-action="answer" data-answer="${qCounter-1} class="btn">&#43;</button>
+         <button type="button" class="delete" data-action="answer" data-answer="${qCounter-1} class="btn"> &#0215;</button>
+      </div>
+       </div>
+     </div>`;
+   }
+
+   function toggleDownload(){
+     var textToDownload = "";
+     if(currentArray.length>0){
+       for(i=0;i<currentArray.length;i++){
+         textToDownload+= currentArray[i].Position1 + "," + currentArray[i].Position2 + "," + currentArray[i].Position3 + "," +currentArray[i].Position4 + "\n";
+       }
+     var blob = new Blob([textToDownload],
+                { type: "text/plain;charset=utf-8" });
+                  saveAs(blob, "TMEQuadruples.txt");
+    }
+    else{
+      alert("No quadruples available for download")
+    }
+   }
+
+   function storageCheck(){
+     if(localStorage.getItem("color")=="dark"){
+       document.getElementById("colorSwitch").checked = true;
+       var r = document.querySelector(':root');
+       r.style.setProperty('--primaryColor', '#333');
+       r.style.setProperty('--secondaryColor', '#292929');
+       r.style.setProperty('--accentColor', 'Aquamarine');
+       r.style.setProperty('--textColor', 'White');
+       r.style.setProperty('--btnColor', 'black');
+     }
+   }
