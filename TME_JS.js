@@ -159,6 +159,7 @@ document.addEventListener('DOMContentLoaded', function() {
       document.getElementById('pQuad').innerHTML = "Not executed";
       document.getElementById('cState').innerHTML = `Q1: B`;
       document.getElementById("cout").innerHTML += `<p>Execution: #0 <br> Not Executed <br> ${currentArrayForOutput(currentTape, currentPointerPosition)}`
+      try{
       if(currentArray[0].Position2.toUpperCase()=="B"){
       document.getElementById("nQuad").innerHTML = `Q${currentStep}, ${currentArray[0].Position2.toUpperCase()}, ${currentArray[0].Position3.toUpperCase()}, Q${currentArray[0].Position4}`;
       }
@@ -166,6 +167,10 @@ document.addEventListener('DOMContentLoaded', function() {
         document.getElementById("nQuad").innerHTML = "None Available";
       }
       }
+      catch(e){
+        document.getElementById("nQuad").innerHTML = "None Available";
+      }
+    }
 
     }
 
@@ -173,6 +178,9 @@ document.addEventListener('DOMContentLoaded', function() {
       document.getElementById('input').disabled = true;
       document.getElementById('toInsert').disabled = true;
       document.getElementById('newQuad').disabled = true;
+      document.getElementById('open').disabled = true;
+      document.getElementById('addMarker').disabled = false;
+      document.getElementById('delMarker').disabled = false;
 
       for(i = 0; i < document.querySelectorAll('.p1').length; i++){
         if( document.getElementsByClassName('p1')[i]!=null){
@@ -192,6 +200,7 @@ document.addEventListener('DOMContentLoaded', function() {
         document.getElementById("cout").innerHTML = "";
         document.getElementById("result").innerHTML = "";
 
+
         document.querySelector('#buttonBar').innerHTML = `<div class="btn-group">
           <button type="button" id="clear" class="btn">Clear</button>
           <button type="button" id="start" class="btn">Start</button>
@@ -199,7 +208,10 @@ document.addEventListener('DOMContentLoaded', function() {
 
        document.getElementById('input').disabled = false;
        document.getElementById('toInsert').disabled = false;
-         document.getElementById('newQuad').disabled = false;
+       document.getElementById('newQuad').disabled = false;
+       document.getElementById('open').disabled = false;
+       document.getElementById('addMarker').disabled = true;
+       document.getElementById('delMarker').disabled = true;
 
        for(i = 0; i < document.querySelectorAll('.p1').length; i++){
          if( document.getElementsByClassName('p1')[i]!=null){
@@ -784,19 +796,28 @@ function highlight(e){
       currentTape[toModify].color = "red";
       e.target.children[0].style.color="red";
       highlightCounter=0;
+      document.getElementById("markerIndicator").style.visibility = "hidden";
       document.removeEventListener("click", highlight);
     }
     else if(e.target.innerHTML == "B"||"1"){
+      try{
       var toModify = e.target.dataset.answer;
       currentTape[toModify].color = "red";
       e.target.style.color="red";
       highlightCounter=0;
+      document.getElementById("markerIndicator").style.visibility = "hidden";
       document.removeEventListener("click", highlight);
+    }
+    catch(e){
+      document.getElementById("markerIndicator").style.visibility = "hidden";
+      document.removeEventListener("click", highlight);
+    }
     }
   }
   else{
     highlightCounter=highlightCounter-1;
     if(highlightCounter==0){
+    document.getElementById("markerIndicator").style.visibility = "hidden";
     document.removeEventListener("click", highlight);
     }
   }
@@ -804,13 +825,15 @@ function highlight(e){
 
 function setHeighlightCounter(e){
   highlightCounter = 2;
-
+  document.getElementById("markerIndicator").style.visibility = "visible";
+  document.getElementById("markerIndicator").style.color = "green";
   document.addEventListener("click", highlight);
 }
 
 function setDeleteCounter(e){
   deleteCounter = 2;
-
+  document.getElementById("markerIndicator").style.visibility = "visible";
+  document.getElementById("markerIndicator").style.color = "red";
   document.addEventListener("click", deleteHighlight);
 }
 
@@ -821,19 +844,30 @@ function deleteHighlight(e){
       currentTape[toModify].color = "regular";
       e.target.children[0].style.color="var(--textColor)";
       deleteCounter=0;
+      document.getElementById("markerIndicator").style.visibility = "hidden";
       document.removeEventListener("click", deleteHighlight);
     }
     else if(e.target.innerHTML == "B"||"1"){
+      try{
       var toModify = e.target.dataset.answer;
       currentTape[toModify].color = "regular";
       e.target.style.color = "var(--textColor)";
       deleteCounter=0;
+      document.getElementById("markerIndicator").style.visibility = "hidden";
       document.removeEventListener("click", deleteHighlight);
+      }
+      catch(e){
+        document.getElementById("markerIndicator").style.visibility = "hidden";
+        document.removeEventListener("click", deleteHighlight);
+      }
+
     }
   }
   else{
     deleteCounter=deleteCounter-1;
     if(deleteCounter==0){
+      console.log("hide")
+    document.getElementById("markerIndicator").style.visibility = "hidden";
     document.removeEventListener("click", deleteHighlight);
     }
   }
