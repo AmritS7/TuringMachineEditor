@@ -654,8 +654,7 @@ function registerButton(e){
 function addB(e){
 
   tempMap = new Map();
-  var qC = parseInt(e.target.dataset.answer);
-
+   var qC = parseInt(e.target.dataset.answer);
     qCounter+=1;
     document.getElementById('toInsert').innerHTML += `<div class = "row">
        <div class = "col-1" style="max-width:11%;flex-basis:11;%">
@@ -683,30 +682,18 @@ function addB(e){
 
 
 
-  for(i=0; i <qC; i++){
-  document.getElementsByClassName('p1')[i].value='';
-  document.getElementsByClassName('p2')[i].value='';
-  document.getElementsByClassName('p3')[i].value='';
-  document.getElementsByClassName('p4')[i].value='';
-  }
-
   for(i=0; i <currentArray.length; i++){
-    if(i<=qC){
-      document.getElementsByClassName("p1")[i].value = currentArray[i].Position1;
-      document.getElementsByClassName("p2")[i].value = currentArray[i].Position2;
-      document.getElementsByClassName("p3")[i].value = currentArray[i].Position3;
-      document.getElementsByClassName("p4")[i].value = currentArray[i].Position4;
-    }
-    else{
+    if(currentArray[i].InstructionNumber>qC){
     currentArray[i].InstructionNumber = String(parseInt(currentArray[i].InstructionNumber)+1);
+    }
+  }
+    for(i=0; i <currentArray.length; i++){
     var instruction = currentArray[i].InstructionNumber;
-
     document.getElementsByClassName("p1")[instruction].value = currentArray[i].Position1;
     document.getElementsByClassName("p2")[instruction].value = currentArray[i].Position2;
     document.getElementsByClassName("p3")[instruction].value = currentArray[i].Position3;
     document.getElementsByClassName("p4")[instruction].value = currentArray[i].Position4;
-  }
-  }
+    }
 
   for(i=0;i<map.size;i++){
     if(i<=qC){
@@ -723,20 +710,18 @@ function addB(e){
 function del(e){
   tempMap = new Map();
   var qC = parseInt(e.target.dataset.answer);
-  currentArray.splice(qC, 1)
+  for(i=0;i<currentArray.length;i++){
+    if(currentArray[i].InstructionNumber==qC){
+      currentArray.splice(qC, 1);
+    }
+  }
   var prevQCounter = qCounter;
   qCounter = 1;
+  var currentNumOfQuads = document.getElementsByClassName('p1').length;
   document.getElementById('toInsert').innerHTML = '';
-
-
-
-
-    for(i = 0; i<currentArray.length; i++){
-      if(i>=qC){
-        currentArray[i].InstructionNumber = String(parseInt(currentArray[i].InstructionNumber)-1);
-      }
+    for(i = 0; i<currentNumOfQuads-2; i++){
        qCounter++;
-    document.getElementById('toInsert').innerHTML += `<div class = "row">
+       document.getElementById('toInsert').innerHTML += `<div class = "row">
        <div class = "col-1" style="max-width:11%;flex-basis:11;%">
          <p class = "instrucNumber" style="visibility:${instrucVisible};">${qCounter}</p>
        </div>
@@ -759,13 +744,21 @@ function del(e){
       </div>
        </div>
      </div>`;
-     document.getElementsByClassName("p1")[i].value = currentArray[i].Position1;
-     document.getElementsByClassName("p2")[i].value = currentArray[i].Position2;
-     document.getElementsByClassName("p3")[i].value = currentArray[i].Position3;
-     document.getElementsByClassName("p4")[i].value = currentArray[i].Position4;
    }
 
+   for(i = 0; i<currentArray.length; i++){
+   if(currentArray[i].InstructionNumber>=qC){
+     currentArray[i].InstructionNumber = String(parseInt(currentArray[i].InstructionNumber)-1);
+     }
+   }
 
+   for(i=0; i <currentArray.length; i++){
+   var instruction = currentArray[i].InstructionNumber;
+   document.getElementsByClassName("p1")[instruction].value = currentArray[i].Position1;
+   document.getElementsByClassName("p2")[instruction].value = currentArray[i].Position2;
+   document.getElementsByClassName("p3")[instruction].value = currentArray[i].Position3;
+   document.getElementsByClassName("p4")[instruction].value = currentArray[i].Position4;
+   }
 
   for(i=0;i<map.size;i++){
     if(i<=qC){
@@ -914,7 +907,6 @@ function saveImport(){
         cArray = [];
         document.getElementById("upload").value = "";
         inputFile="";
-        console.log("asddsa");
         return false;
       }
     });
