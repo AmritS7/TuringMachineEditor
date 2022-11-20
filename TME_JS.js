@@ -616,10 +616,40 @@ document.addEventListener('DOMContentLoaded', function() {
           }
     }
   }
-  var finalResult = 0;
+  var finalResult = "";
+  var finArray = [];
+  var whereToAdd=0;
+  var toAdd = 0;
   for(i = 0; i<currentTape.length; i++){
     if(currentTape[i].text=="1"){
-      finalResult++;
+      toAdd++;
+    }
+    else if(currentTape[i].text=="B" && i==currentTape.length-1){
+        if (toAdd!=0){
+          finArray[whereToAdd] = toAdd;
+          toAdd = 0;
+          whereToAdd++;
+        }
+        else if(toAdd == 0 && finArray.length==0){
+          finArray[whereToAdd] = toAdd;
+          whereToAdd++;
+        }
+      }
+    else if(currentTape[i].text=="B" && i!=0 && i!=currentTape.length-1){
+      if (toAdd!=0){
+        finArray[whereToAdd] = toAdd;
+        toAdd = 0;
+        whereToAdd++;
+      }
+    }
+  }
+
+  for(i=0;i<finArray.length;i++){
+    if(i!=finArray.length-1){
+      finalResult+=finArray[i] + ",";
+    }
+    else{
+      finalResult+=finArray[i];
     }
   }
   document.getElementById("result").innerHTML = finalResult;
