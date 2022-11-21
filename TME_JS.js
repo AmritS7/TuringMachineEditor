@@ -379,7 +379,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
     if(toEdit=="p1" || toEdit=="p2"){
       if(map.has(instrucNumberToUpdate)){
-        var inputPair = String(document.getElementsByClassName("p1")[e.target.dataset.answer].value) + "_" + String(document.getElementsByClassName("p2")[e.target.dataset.answer].value);
+        var inputPair = String(document.getElementsByClassName("p1")[e.target.dataset.answer].value) + "_" + String(document.getElementsByClassName("p2")[e.target.dataset.answer].value.toUpperCase());
         map.set(e.target.dataset.answer, inputPair);
       }
     }
@@ -418,7 +418,7 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
 
-    var inputPair = String(document.getElementsByClassName("p1")[e.target.dataset.answer].value) + "_" + String(document.getElementsByClassName("p2")[e.target.dataset.answer].value);
+    var inputPair = String(document.getElementsByClassName("p1")[e.target.dataset.answer].value) + "_" + String(document.getElementsByClassName("p2")[e.target.dataset.answer].value.toUpperCase());
 
     const values = [...map.values()];
     if(values.includes(inputPair)){
@@ -789,10 +789,10 @@ function del(e){
    }
 
   for(i=0;i<map.size;i++){
-    if(i<=qC){
+    if(i<qC){
       tempMap.set(String(i), map.get(String(i)));
     }
-    else {
+    else if(i>qC) {
       tempMap.set(String(i-1), map.get(String(i)));
     }
   }
@@ -908,6 +908,8 @@ function clearModal(){
 function saveImport(){
   var cArray = [];
   var isValid = 0;
+  var tMap = new Map();
+  var continueForMap = 0;
   if(inputFile!=""){
     isValid=1;
     var fileContentArray = inputFile.split(/\r\n|\n/);
@@ -922,9 +924,23 @@ function saveImport(){
            Position3: quadToInsert[2].toUpperCase(),
            Position4: quadToInsert[3],
          }
+         var inputPair = String(currQuad.Position1 + "_" + currQuad.Position2);
+         const values = [...tMap.values()];
+         if(values.includes(inputPair)){
+           isValid=2;
+           cArray = [];
+           tMap = new Map();
+           inputFile="";
+           document.getElementById("upload").value = "";
+           alert("Input file contains a redundant quadruple!")
+           return false;
+         }
+         else{
+         tMap.set(currQuad.InstructionNumber, inputPair);
          cArray.push(currQuad);
          i++;
          return true;
+        }
        }
        else if(line==""){
          return true;
@@ -955,10 +971,24 @@ function saveImport(){
              Position3: quadToInsert[2].toUpperCase(),
              Position4: quadToInsert[3],
            }
-           cArray.push(currQuad);
-           i++;
-           return true;
-         }
+           var inputPair = String(currQuad.Position1 + "_" + currQuad.Position2);
+           const values = [...tMap.values()];
+           if(values.includes(inputPair)){
+             isValid=2;
+             cArray = [];
+             tMap = new Map();
+             inputFile="";
+             document.getElementById("upload").value = "";
+             alert("Input file contains a redundant quadruple!")
+             return false;
+           }
+           else{
+            tMap.set(currQuad.InstructionNumber, inputPair);
+            cArray.push(currQuad);
+            i++;
+            return true;
+          }
+        }
         else if(line==""){
           return true;
         }
@@ -974,6 +1004,7 @@ function saveImport(){
 
     if(isValid==1){
     clearAll();
+    map = tMap;
     currentArray = cArray;
     for(i=0; i<currentArray.length-1;i++){
         addQuadForImport();
