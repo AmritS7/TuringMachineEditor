@@ -565,7 +565,7 @@ document.addEventListener('DOMContentLoaded', function() {
        do{
        nextStepExists = doStep();
         }
-        while (nextStepExists==true && (Date.now()-startTime)<10000);
+        while (nextStepExists==true && (Date.now()-startTime)<15000);
 
   }
 
