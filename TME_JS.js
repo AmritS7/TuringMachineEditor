@@ -258,6 +258,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
       function readEntry(e){
         if(e.target.classList.contains('p1')){
+          counter++;
           if(counter>=2){
             counter = 0;
           }
@@ -274,11 +275,11 @@ document.addEventListener('DOMContentLoaded', function() {
               document.getElementsByClassName("p4")[e.target.dataset.answer-1].focus();
               }
             }
-              counter++;
           }
 
 
         else if(e.target.classList.contains('p2')){
+           counter++;
           if(counter>=2){
             counter = 0;
           }
@@ -290,10 +291,10 @@ document.addEventListener('DOMContentLoaded', function() {
          else if(recentKeyStrokes[0]==8 && recentKeyStrokes[1]==8 && document.getElementsByClassName("p2")[e.target.dataset.answer].value==""){
              document.getElementsByClassName("p1")[e.target.dataset.answer].focus();
              }
-               counter++;
            }
 
         else if(e.target.classList.contains('p3')){
+          counter++;
           if(counter>=2){
             counter = 0;
           }
@@ -305,11 +306,11 @@ document.addEventListener('DOMContentLoaded', function() {
          else if(recentKeyStrokes[0]==8 && recentKeyStrokes[1]==8 && document.getElementsByClassName("p3")[e.target.dataset.answer].value==""){
              document.getElementsByClassName("p2")[e.target.dataset.answer].focus();
              }
-              counter++;
            }
 
 
         else if(e.target.classList.contains('p4')){
+          counter++;
           if(counter>=2){
             counter = 0;
           }
@@ -337,7 +338,6 @@ document.addEventListener('DOMContentLoaded', function() {
             document.getElementsByClassName("p3")[e.target.dataset.answer].focus();
             }
           }
-          counter++;
   };
 
   function checkSource(e){
@@ -345,7 +345,7 @@ document.addEventListener('DOMContentLoaded', function() {
         saveEntry(e);
       }
       else if(e.target.classList.contains('p4')){
-        if(recentKeyStrokes[counter-1]!= 13 && recentKeyStrokes[counter-1]!=9){
+        if(recentKeyStrokes[counter]!= 13 && recentKeyStrokes[counter]!=9){
           saveEntry(e);
         }
       }
