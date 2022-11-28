@@ -565,10 +565,10 @@ document.addEventListener('DOMContentLoaded', function() {
        do{
        nextStepExists =  runLoop();
       }
-        while (nextStepExists==true && (Date.now()-startTime)<12500);
+        while (nextStepExists==true && (Date.now()-startTime)<14500);
 
-        if(Date.now()-startTime>=12500){
-            document.getElementById("cout").innerHTML += `<p>Execution: #${executionNumber} <br> ${document.getElementById("pQuad").innerHTML} <br> ${currentArrayForOutput(currentTape, currentPointerPosition)} <br> More Quadruples Available! Check for infinite loop or press run to continue`
+        if(Date.now()-startTime>=14500){
+            document.getElementById("cout").innerHTML += `<p>Execution: #${executionNumber} <br> ${document.getElementById("pQuad").innerHTML} <br> ${currentArrayForOutput(currentTape, currentPointerPosition)} <br> <span style="color:red; font-weight:bold;">More Quadruples Available! Check for infinite loop or press run to continue </span>`
             cout.scrollTop = cout.scrollHeight;
             updateTapeAndPointer();
           }
@@ -641,7 +641,6 @@ document.addEventListener('DOMContentLoaded', function() {
 
               document.getElementById("pQuad").innerHTML = `Q${currentStep}, ${currentArray[i].Position2.toUpperCase()}, ${currentArray[i].Position3.toUpperCase()}, Q${currentArray[i].Position4}`;
               cP4 = currentArray[i].Position4;
-              cout.scrollTop = cout.scrollHeight;
               executionNumber++;
               currentStep = cP4;
               document.getElementById("cState").innerHTML = `Q${currentStep}: ${currentTape[currentPointerPosition].text}`
