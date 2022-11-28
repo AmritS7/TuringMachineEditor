@@ -570,6 +570,7 @@ document.addEventListener('DOMContentLoaded', function() {
         if(Date.now()-startTime>=12500){
             document.getElementById("cout").innerHTML += `<p>Execution: #${executionNumber} <br> ${document.getElementById("pQuad").innerHTML} <br> ${currentArrayForOutput(currentTape, currentPointerPosition)} <br> More Quadruples Available! Check for infinite loop or press run to continue`
             cout.scrollTop = cout.scrollHeight;
+            updateTapeAndPointer();
           }
     }
 
@@ -644,8 +645,10 @@ document.addEventListener('DOMContentLoaded', function() {
               executionNumber++;
               currentStep = cP4;
               document.getElementById("cState").innerHTML = `Q${currentStep}: ${currentTape[currentPointerPosition].text}`
-              document.getElementById("nQuad").innerHTML = peek(currentStep);
+              var nextAvailable = peek(currentStep);
+              document.getElementById("nQuad").innerHTML = nextAvailable;
 
+              if(nextAvailable=="None Available"){
               updateTapeAndPointer();
               if(addedOnRight==true){
               document.getElementById('pointerAndTape').scrollLeft = pointerAndTape.scrollWidth;
@@ -653,6 +656,7 @@ document.addEventListener('DOMContentLoaded', function() {
               else if(addedOnLeft==true){
                 document.getElementById('pointerAndTape').scrollLeft = 0;
               }
+            }
               return true;
           }
         }
