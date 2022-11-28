@@ -564,8 +564,12 @@ document.addEventListener('DOMContentLoaded', function() {
 
        do{
        nextStepExists =  runLoop();
-     }
-        while (nextStepExists==true && (Date.now()-startTime)<15000);
+      }
+        while (nextStepExists==true && (Date.now()-startTime)<12500);
+
+        if(Date.now()-startTime>=12500)
+            document.getElementById("cout").innerHTML += `<p>Execution: #${executionNumber} <br> ${currentArrayForOutput(currentTape, currentPointerPosition)} <br> More Quadruples Available! Check for infinite loop or press run to continue`
+
     }
 
     function runLoop(){
