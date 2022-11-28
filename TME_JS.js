@@ -563,11 +563,97 @@ document.addEventListener('DOMContentLoaded', function() {
       var startTime = Date.now();
 
        do{
-       nextStepExists = doStep();
-        }
+       nextStepExists =  runLoop();
+     }
         while (nextStepExists==true && (Date.now()-startTime)<15000);
+    }
 
-  }
+    function runLoop(){
+      var addedOnRight = false;
+      var addedOnLeft = false;
+      for(i = 0; i<currentArray.length; i++){
+        if(currentArray[i].Position1==currentStep){
+          if(currentArray[i].Position2.toUpperCase()==currentTape[currentPointerPosition].text){
+              //if right move pointer right
+              if (currentArray[i].Position3=="R"){
+                currentPointer.unshift("");
+                if(currentPointerPosition==currentTape.length-1){
+                  tapeOutput = {
+                    text: "B",
+                    color: "regular"
+                  }
+                  currentTape.push(tapeOutput);
+                  addedOnRight = true;
+                }
+                currentPointerPosition++;
+              }
+              else if (currentArray[i].Position3=="L"){
+                if(currentPointerPosition!=0){
+                currentPointer.splice(0, 1);
+                currentPointerPosition--;
+                }
+                else{
+                  tapeOutput = {
+                    text: "B",
+                    color: "regular"
+                  }
+                  currentTape.unshift(tapeOutput);
+                  addedOnLeft = true;
+                }
+              }
+              else if (currentArray[i].Position3=="1"){
+                tapeOutput = {
+                  text: "1",
+                  color: "regular"
+                }
+                currentTape[currentPointerPosition] = tapeOutput;
+                if(currentPointerPosition==0){
+                    currentPointer.unshift("");
+                    tapeOutput = {
+                      text: "B",
+                      color: "regular"
+                    }
+                    currentTape.unshift(tapeOutput);
+                    addedOnLeft = true;
+                }
+                else if(currentPointerPosition==currentTape.length-1){
+                  tapeOutput = {
+                    text: "B",
+                    color: "regular"
+                  }
+                  currentTape.push(tapeOutput);
+                    addedOnRight = true;
+                }
+              }
+              else if(currentArray[i].Position3=="B"){
+                tapeOutput = {
+                  text: "B",
+                  color: "regular"
+                }
+                currentTape[currentPointerPosition] = tapeOutput;
+              }
+
+              document.getElementById("pQuad").innerHTML = `Q${currentStep}, ${currentArray[i].Position2.toUpperCase()}, ${currentArray[i].Position3.toUpperCase()}, Q${currentArray[i].Position4}`;
+              cP4 = currentArray[i].Position4;
+              cout.scrollTop = cout.scrollHeight;
+              executionNumber++;
+              currentStep = cP4;
+              document.getElementById("cState").innerHTML = `Q${currentStep}: ${currentTape[currentPointerPosition].text}`
+              document.getElementById("nQuad").innerHTML = peek(currentStep);
+
+              updateTapeAndPointer();
+              if(addedOnRight==true){
+              document.getElementById('pointerAndTape').scrollLeft = pointerAndTape.scrollWidth;
+              }
+              else if(addedOnLeft==true){
+                document.getElementById('pointerAndTape').scrollLeft = 0;
+              }
+              return true;
+          }
+        }
+      }
+    }
+
 
 
     function updateTapeAndPointer(){
@@ -651,7 +737,7 @@ document.addEventListener('DOMContentLoaded', function() {
     }
   }
   document.getElementById("result").innerHTML = finalResult;
-  document.getElementById("cout").innerHTML += `<p>No more quadruples available <br> Ended with result: ${finalResult}`;
+  document.getElementById("cout").innerHTML += `<p>No more quadruples available <br> Total Steps: ${executionNumber-1}<br> Ended with result: ${finalResult}`;
   document.getElementById('cout').scrollTop = cout.scrollHeight;
   return("None Available")
 }
