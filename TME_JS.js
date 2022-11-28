@@ -567,9 +567,10 @@ document.addEventListener('DOMContentLoaded', function() {
       }
         while (nextStepExists==true && (Date.now()-startTime)<12500);
 
-        if(Date.now()-startTime>=12500)
-            document.getElementById("cout").innerHTML += `<p>Execution: #${executionNumber} <br> ${currentArrayForOutput(currentTape, currentPointerPosition)} <br> More Quadruples Available! Check for infinite loop or press run to continue`
-
+        if(Date.now()-startTime>=12500){
+            document.getElementById("cout").innerHTML += `<p>Execution: #${executionNumber} <br> ${document.getElementById("pQuad").innerHTML} <br> ${currentArrayForOutput(currentTape, currentPointerPosition)} <br> More Quadruples Available! Check for infinite loop or press run to continue`
+            cout.scrollTop = cout.scrollHeight;
+          }
     }
 
     function runLoop(){
