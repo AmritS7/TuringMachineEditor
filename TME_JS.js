@@ -563,7 +563,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
        do{
        nextStepExists =  runLoop();
-       console.log(Date.now()-startTime);
+       //console.log(Date.now()-startTime);
       }
         while (nextStepExists==true && (Date.now()-startTime)<14500);
         if(Date.now()-startTime>=14500){
