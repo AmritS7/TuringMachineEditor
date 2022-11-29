@@ -401,7 +401,6 @@ document.addEventListener('DOMContentLoaded', function() {
 
       }
     }
-
   }
 
   function addToArray(e){
@@ -817,16 +816,16 @@ function addB(e){
     document.getElementsByClassName("p4")[instruction].value = currentArray[i].Position4;
     }
 
-  for(i=0;i<map.size;i++){
-    if(i<=qC){
-      tempMap.set(String(i), map.get(String(i)));
+    for (let [key, value] of map) {
+      if(parseInt(key)<=qC){
+        tempMap.set(key, map.get(key));
+      }
+      else {
+        tempMap.set(String(parseInt(key)+1), map.get(key));
+      }
     }
-    else {
-      tempMap.set(String(i+1), map.get(String(i)));
-    }
-  }
-    map = tempMap;
 
+    map = tempMap;
   }
 
 function del(e){
@@ -834,7 +833,7 @@ function del(e){
   var qC = parseInt(e.target.dataset.answer);
   for(i=0;i<currentArray.length;i++){
     if(currentArray[i].InstructionNumber==qC){
-      currentArray.splice(qC, 1);
+      currentArray.splice(i, 1);
     }
   }
   var prevQCounter = qCounter;
@@ -882,16 +881,25 @@ function del(e){
    document.getElementsByClassName("p4")[instruction].value = currentArray[i].Position4;
    }
 
-  for(i=0;i<map.size;i++){
-    if(i<qC){
-      tempMap.set(String(i), map.get(String(i)));
-    }
-    else if(i>qC) {
-      tempMap.set(String(i-1), map.get(String(i)));
-    }
-  }
-    map = tempMap;
+   for (let [key, value] of map) {
+     if(parseInt(key)<qC){
+       tempMap.set(key, map.get(key));
+     }
+     else if(parseInt(key)>qC){
+       tempMap.set(String(parseInt(key)-1), map.get(key));
+     }
+   }
 
+
+  // for(i=0;i<map.size;i++){
+  //   if(i<qC){
+  //     tempMap.set(String(i), map.get(String(i)));
+  //   }
+  //   else if(i>qC) {
+  //     tempMap.set(String(i-1), map.get(String(i)));
+  //   }
+  // }
+    map = tempMap;
 }
 
 
