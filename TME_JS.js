@@ -563,10 +563,10 @@ document.addEventListener('DOMContentLoaded', function() {
 
        do{
        nextStepExists =  runLoop();
+       console.log(Date.now()-startTime);
       }
-        while (nextStepExists==true && (Date.now()-startTime)<1000);
-        console.log(Date.now()-startTime);
-        if(Date.now()-startTime>=1000){
+        while (nextStepExists==true && (Date.now()-startTime)<14500);
+        if(Date.now()-startTime>=14500){
             document.getElementById("cout").innerHTML += `<p>Execution: #${executionNumber} <br> ${document.getElementById("pQuad").innerHTML} <br> ${currentArrayForOutput(currentTape, currentPointerPosition)} <br> <span style="color:red; font-weight:bold;">More Quadruples Available! Check for infinite loop or press run to continue </span>`
             cout.scrollTop = cout.scrollHeight;
             updateTapeAndPointer();
