@@ -565,7 +565,7 @@ document.addEventListener('DOMContentLoaded', function() {
        nextStepExists =  runLoop();
       }
         while (nextStepExists==true && (Date.now()-startTime)<1000);
-
+        console.log(Date.now()-startTime);
         if(Date.now()-startTime>=1000){
             document.getElementById("cout").innerHTML += `<p>Execution: #${executionNumber} <br> ${document.getElementById("pQuad").innerHTML} <br> ${currentArrayForOutput(currentTape, currentPointerPosition)} <br> <span style="color:red; font-weight:bold;">More Quadruples Available! Check for infinite loop or press run to continue </span>`
             cout.scrollTop = cout.scrollHeight;
