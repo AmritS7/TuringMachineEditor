@@ -110,6 +110,10 @@ document.addEventListener('DOMContentLoaded', function() {
       currentPointerPosition = 0;
       executionNumber = 1;
       var allNumbers = true;
+      if(document.querySelector("#input").value==""){
+        alert("Please enter an input!");
+      }
+      else{
       var inputList = document.querySelector("#input").value.split(',');
       for(i=0; i<inputList.length; i++){
         if(! (/^\d+$/.test(inputList[i]))){
@@ -160,7 +164,6 @@ document.addEventListener('DOMContentLoaded', function() {
 
        disableEdit();
 
-      document.getElementById('cout').innerHTML += "<p>Setting up Tape...<p>";
       document.getElementById('pQuad').innerHTML = "Not executed";
       document.getElementById('cState').innerHTML = `Q1: B`;
       document.getElementById("cout").innerHTML += `<p>Execution: #0 <br> Not Executed <br> ${currentArrayForOutput(currentTape, currentPointerPosition)}`
@@ -176,7 +179,7 @@ document.addEventListener('DOMContentLoaded', function() {
         document.getElementById("nQuad").innerHTML = "None Available";
       }
     }
-
+  }
     }
 
     function disableEdit(){
@@ -579,7 +582,6 @@ document.addEventListener('DOMContentLoaded', function() {
       for(i = 0; i<currentArray.length; i++){
         if(currentArray[i].Position1==currentStep){
           if(currentArray[i].Position2.toUpperCase()==currentTape[currentPointerPosition].text){
-              //if right move pointer right
               if (currentArray[i].Position3=="R"){
                 currentPointer.unshift("");
                 if(currentPointerPosition==currentTape.length-1){
@@ -890,15 +892,6 @@ function del(e){
      }
    }
 
-
-  // for(i=0;i<map.size;i++){
-  //   if(i<qC){
-  //     tempMap.set(String(i), map.get(String(i)));
-  //   }
-  //   else if(i>qC) {
-  //     tempMap.set(String(i-1), map.get(String(i)));
-  //   }
-  // }
     map = tempMap;
 }
 
