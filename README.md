@@ -1,7 +1,7 @@
 # Turing Machine Editor
 
 ## About
-A webapp designed to help visualize how Turing Machines Work. Created for academic use in high level education. You can directly view the website at: <br>
+A webapp designed to help visualize how Turing Machines work. Created for academic use in high level education. Inspired by Dr. Ronald Fechter. You can directly view the website at: <br>
 https://amrits7.github.io/TuringMachineEditor/ 
 
 ## Turing Machines - What are they?
