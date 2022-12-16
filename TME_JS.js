@@ -380,15 +380,11 @@ document.addEventListener('DOMContentLoaded', function() {
     var toEdit = e.target.className;
     var updatedValue = document.getElementsByClassName(toEdit)[e.target.dataset.answer].value.toUpperCase();
 
-    if(toEdit=="p1" || toEdit=="p2"){
-      if(map.has(instrucNumberToUpdate)){
-        var inputPair = String(document.getElementsByClassName("p1")[e.target.dataset.answer].value) + "_" + String(document.getElementsByClassName("p2")[e.target.dataset.answer].value.toUpperCase());
-        map.set(e.target.dataset.answer, inputPair);
-      }
-    }
 
+    var toRemove = -1;
     for(i=0; i<currentArray.length; i++){
       if(currentArray[i].InstructionNumber == instrucNumberToUpdate){
+        toRemove = i;
         if(toEdit == "p1"){
           currentArray[i].Position1 = updatedValue;
         }
@@ -403,6 +399,18 @@ document.addEventListener('DOMContentLoaded', function() {
         }
 
       }
+    }
+
+    if(toEdit=="p1" || toEdit=="p2"){
+      var inputPair = String(document.getElementsByClassName("p1")[e.target.dataset.answer].value) + "_" + String(document.getElementsByClassName("p2")[e.target.dataset.answer].value.toUpperCase());
+      const values = [...map.values()];
+      for(let i=0; i<values.length; i++){
+      if(values[i]==(toRemove)){
+        map.delete(Array.from(map.keys())[i]);
+        map.set(inputPair, toRemove);
+        }
+      }
+
     }
   }
 
@@ -422,17 +430,16 @@ document.addEventListener('DOMContentLoaded', function() {
 
     var inputPair = String(document.getElementsByClassName("p1")[e.target.dataset.answer].value) + "_" + String(document.getElementsByClassName("p2")[e.target.dataset.answer].value.toUpperCase());
 
-    const values = [...map.values()];
-    if(values.includes(inputPair)){
+    if(map.has(inputPair)){
       alert("Redundant Quadruple!")
       hasRedundant = true;
     }
     else{
-      map.set(e.target.dataset.answer, inputPair);
       currentArray.push(currQuad);
+      var length = currentArray.length-1;
+      map.set(inputPair, length);
     }
   }
-
 }
   catch(error){}
 }
@@ -445,9 +452,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
         }
 
-    //
-    //Clears all values and arrays
-    //
+
     function clearAll(){
       document.getElementById('input').value='';
       document.getElementById('toInsert').innerHTML='';
@@ -476,89 +481,86 @@ document.addEventListener('DOMContentLoaded', function() {
     function doStep(){
       var addedOnRight = false;
       var addedOnLeft = false;
-      for(i = 0; i<currentArray.length; i++){
-        if(currentArray[i].Position1==currentStep){
-          if(currentArray[i].Position2.toUpperCase()==currentTape[currentPointerPosition].text){
-              //if right move pointer right
-              if (currentArray[i].Position3=="R"){
+      var inputPair = `${currentStep}_${currentTape[currentPointerPosition].text}`
+      var pos = parseInt(map.get(inputPair));
+          if (currentArray[pos].Position3=="R"){
+            currentPointer.unshift("");
+            if(currentPointerPosition==currentTape.length-1){
+              tapeOutput = {
+                text: "B",
+                color: "regular"
+              }
+              currentTape.push(tapeOutput);
+              addedOnRight = true;
+            }
+            currentPointerPosition++;
+          }
+          else if (currentArray[pos].Position3=="L"){
+            if(currentPointerPosition!=0){
+            currentPointer.splice(0, 1);
+            currentPointerPosition--;
+            }
+            else{
+              tapeOutput = {
+                text: "B",
+                color: "regular"
+              }
+              currentTape.unshift(tapeOutput);
+              addedOnLeft = true;
+            }
+          }
+          else if (currentArray[pos].Position3=="1"){
+            tapeOutput = {
+              text: "1",
+              color: "regular"
+            }
+            currentTape[currentPointerPosition] = tapeOutput;
+            if(currentPointerPosition==0){
                 currentPointer.unshift("");
-                if(currentPointerPosition==currentTape.length-1){
-                  tapeOutput = {
-                    text: "B",
-                    color: "regular"
-                  }
-                  currentTape.push(tapeOutput);
-                  addedOnRight = true;
-                }
-                currentPointerPosition++;
-              }
-              else if (currentArray[i].Position3=="L"){
-                if(currentPointerPosition!=0){
-                currentPointer.splice(0, 1);
-                currentPointerPosition--;
-                }
-                else{
-                  tapeOutput = {
-                    text: "B",
-                    color: "regular"
-                  }
-                  currentTape.unshift(tapeOutput);
-                  addedOnLeft = true;
-                }
-              }
-              else if (currentArray[i].Position3=="1"){
-                tapeOutput = {
-                  text: "1",
-                  color: "regular"
-                }
-                currentTape[currentPointerPosition] = tapeOutput;
-                if(currentPointerPosition==0){
-                    currentPointer.unshift("");
-                    tapeOutput = {
-                      text: "B",
-                      color: "regular"
-                    }
-                    currentTape.unshift(tapeOutput);
-                    addedOnLeft = true;
-                }
-                else if(currentPointerPosition==currentTape.length-1){
-                  tapeOutput = {
-                    text: "B",
-                    color: "regular"
-                  }
-                  currentTape.push(tapeOutput);
-                    addedOnRight = true;
-                }
-              }
-              else if(currentArray[i].Position3=="B"){
                 tapeOutput = {
                   text: "B",
                   color: "regular"
                 }
-                currentTape[currentPointerPosition] = tapeOutput;
+                currentTape.unshift(tapeOutput);
+                addedOnLeft = true;
+            }
+            else if(currentPointerPosition==currentTape.length-1){
+              tapeOutput = {
+                text: "B",
+                color: "regular"
               }
-
-              document.getElementById("pQuad").innerHTML = `Q${currentStep}, ${currentArray[i].Position2.toUpperCase()}, ${currentArray[i].Position3.toUpperCase()}, Q${currentArray[i].Position4}`;
-              cP4 = currentArray[i].Position4;
-              document.getElementById("cout").innerHTML += `<p>Execution: #${executionNumber} <br> Q${currentStep}, ${currentArray[i].Position2.toUpperCase()}, ${currentArray[i].Position3.toUpperCase()}, Q${cP4} <br> ${currentArrayForOutput(currentTape, currentPointerPosition)}`
-              cout.scrollTop = cout.scrollHeight;
-              executionNumber++;
-              currentStep = cP4;
-              document.getElementById("cState").innerHTML = `Q${currentStep}: ${currentTape[currentPointerPosition].text}`
-              document.getElementById("nQuad").innerHTML = peek(currentStep);
-
-              updateTapeAndPointer();
-              if(addedOnRight==true){
-              document.getElementById('pointerAndTape').scrollLeft = pointerAndTape.scrollWidth;
-              }
-              else if(addedOnLeft==true){
-                document.getElementById('pointerAndTape').scrollLeft = 0;
-              }
-              return true;
+              currentTape.push(tapeOutput);
+                addedOnRight = true;
+            }
           }
-        }
+          else if(currentArray[pos].Position3=="B"){
+            tapeOutput = {
+              text: "B",
+              color: "regular"
+            }
+            currentTape[currentPointerPosition] = tapeOutput;
+          }
+
+          document.getElementById("pQuad").innerHTML = `Q${currentStep}, ${currentArray[pos].Position2.toUpperCase()}, ${currentArray[pos].Position3.toUpperCase()}, Q${currentArray[pos].Position4}`;
+          cP4 = currentArray[pos].Position4;
+          document.getElementById("cout").innerHTML += `<p>Execution: #${executionNumber} <br> Q${currentStep}, ${currentArray[pos].Position2.toUpperCase()}, ${currentArray[pos].Position3.toUpperCase()}, Q${cP4} <br> ${currentArrayForOutput(currentTape, currentPointerPosition)}`
+          cout.scrollTop = cout.scrollHeight;
+          executionNumber++;
+          currentStep = cP4;
+          document.getElementById("cState").innerHTML = `Q${currentStep}: ${currentTape[currentPointerPosition].text}`
+          document.getElementById("nQuad").innerHTML = peek(currentStep);
+
+          updateTapeAndPointer();
+          if(addedOnRight==true){
+          document.getElementById('pointerAndTape').scrollLeft = pointerAndTape.scrollWidth;
+          }
+          else if(addedOnLeft==true){
+            document.getElementById('pointerAndTape').scrollLeft = 0;
+          }
+          return true;
       }
-    }
+
+
 
     function doRun(){
       var nextStepExists = false;
@@ -566,7 +568,6 @@ document.addEventListener('DOMContentLoaded', function() {
 
        do{
        nextStepExists =  runLoop();
-       console.log(Date.now()-startTime);
       }
         while (nextStepExists==true && (Date.now()-startTime)<14500);
         if(Date.now()-startTime>=14500){
@@ -579,89 +580,85 @@ document.addEventListener('DOMContentLoaded', function() {
     function runLoop(){
       var addedOnRight = false;
       var addedOnLeft = false;
-      for(i = 0; i<currentArray.length; i++){
-        if(currentArray[i].Position1==currentStep){
-          if(currentArray[i].Position2.toUpperCase()==currentTape[currentPointerPosition].text){
-              if (currentArray[i].Position3=="R"){
+      var inputPair = `${currentStep}_${currentTape[currentPointerPosition].text}`
+      var pos = parseInt(map.get(inputPair));
+          if (currentArray[pos].Position3=="R"){
+            currentPointer.unshift("");
+            if(currentPointerPosition==currentTape.length-1){
+              tapeOutput = {
+                text: "B",
+                color: "regular"
+              }
+              currentTape.push(tapeOutput);
+              addedOnRight = true;
+            }
+            currentPointerPosition++;
+          }
+          else if (currentArray[pos].Position3=="L"){
+            if(currentPointerPosition!=0){
+            currentPointer.splice(0, 1);
+            currentPointerPosition--;
+            }
+            else{
+              tapeOutput = {
+                text: "B",
+                color: "regular"
+              }
+              currentTape.unshift(tapeOutput);
+              addedOnLeft = true;
+            }
+          }
+          else if (currentArray[pos].Position3=="1"){
+            tapeOutput = {
+              text: "1",
+              color: "regular"
+            }
+            currentTape[currentPointerPosition] = tapeOutput;
+            if(currentPointerPosition==0){
                 currentPointer.unshift("");
-                if(currentPointerPosition==currentTape.length-1){
-                  tapeOutput = {
-                    text: "B",
-                    color: "regular"
-                  }
-                  currentTape.push(tapeOutput);
-                  addedOnRight = true;
-                }
-                currentPointerPosition++;
-              }
-              else if (currentArray[i].Position3=="L"){
-                if(currentPointerPosition!=0){
-                currentPointer.splice(0, 1);
-                currentPointerPosition--;
-                }
-                else{
-                  tapeOutput = {
-                    text: "B",
-                    color: "regular"
-                  }
-                  currentTape.unshift(tapeOutput);
-                  addedOnLeft = true;
-                }
-              }
-              else if (currentArray[i].Position3=="1"){
-                tapeOutput = {
-                  text: "1",
-                  color: "regular"
-                }
-                currentTape[currentPointerPosition] = tapeOutput;
-                if(currentPointerPosition==0){
-                    currentPointer.unshift("");
-                    tapeOutput = {
-                      text: "B",
-                      color: "regular"
-                    }
-                    currentTape.unshift(tapeOutput);
-                    addedOnLeft = true;
-                }
-                else if(currentPointerPosition==currentTape.length-1){
-                  tapeOutput = {
-                    text: "B",
-                    color: "regular"
-                  }
-                  currentTape.push(tapeOutput);
-                    addedOnRight = true;
-                }
-              }
-              else if(currentArray[i].Position3=="B"){
                 tapeOutput = {
                   text: "B",
                   color: "regular"
                 }
-                currentTape[currentPointerPosition] = tapeOutput;
-              }
-
-              document.getElementById("pQuad").innerHTML = `Q${currentStep}, ${currentArray[i].Position2.toUpperCase()}, ${currentArray[i].Position3.toUpperCase()}, Q${currentArray[i].Position4}`;
-              cP4 = currentArray[i].Position4;
-              executionNumber++;
-              currentStep = cP4;
-              document.getElementById("cState").innerHTML = `Q${currentStep}: ${currentTape[currentPointerPosition].text}`
-              var nextAvailable = peek(currentStep);
-              document.getElementById("nQuad").innerHTML = nextAvailable;
-
-              if(nextAvailable=="None Available"){
-              updateTapeAndPointer();
-              if(addedOnRight==true){
-              document.getElementById('pointerAndTape').scrollLeft = pointerAndTape.scrollWidth;
-              }
-              else if(addedOnLeft==true){
-                document.getElementById('pointerAndTape').scrollLeft = 0;
-              }
+                currentTape.unshift(tapeOutput);
+                addedOnLeft = true;
             }
-              return true;
+            else if(currentPointerPosition==currentTape.length-1){
+              tapeOutput = {
+                text: "B",
+                color: "regular"
+              }
+              currentTape.push(tapeOutput);
+                addedOnRight = true;
+            }
+          }
+          else if(currentArray[pos].Position3=="B"){
+            tapeOutput = {
+              text: "B",
+              color: "regular"
+            }
+            currentTape[currentPointerPosition] = tapeOutput;
+          }
+
+          document.getElementById("pQuad").innerHTML = `Q${currentStep}, ${currentArray[pos].Position2.toUpperCase()}, ${currentArray[pos].Position3.toUpperCase()}, Q${currentArray[pos].Position4}`;
+          cP4 = currentArray[pos].Position4;
+          executionNumber++;
+          currentStep = cP4;
+          document.getElementById("cState").innerHTML = `Q${currentStep}: ${currentTape[currentPointerPosition].text}`
+          var nextAvailable = peek(currentStep);
+          document.getElementById("nQuad").innerHTML = nextAvailable;
+
+          if(nextAvailable=="None Available"){
+          updateTapeAndPointer();
+          if(addedOnRight==true){
+          document.getElementById('pointerAndTape').scrollLeft = pointerAndTape.scrollWidth;
+          }
+          else if(addedOnLeft==true){
+            document.getElementById('pointerAndTape').scrollLeft = 0;
           }
         }
+          return true;
       }
-    }
 
 
 
@@ -702,13 +699,13 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     function peek(cStep){
-      for(i = 0; i<currentArray.length; i++){
-        if(currentArray[i].Position1==cStep){
-          if(currentArray[i].Position2.toUpperCase()==currentTape[currentPointerPosition].text){
-            return (`Q${cStep}, ${currentArray[i].Position2.toUpperCase()}, ${currentArray[i].Position3.toUpperCase()}, Q${currentArray[i].Position4}`);
-          }
-    }
-  }
+      var value;
+      var inputPair = `${cStep}_${currentTape[currentPointerPosition].text}`
+      if(map.has(inputPair)){
+        value=map.get(inputPair);
+        return (`Q${cStep}, ${currentArray[value].Position2.toUpperCase()}, ${currentArray[value].Position3.toUpperCase()}, Q${currentArray[value].Position4}`);
+        }
+
   var finalResult = "";
   var finArray = [];
   var whereToAdd=0;
@@ -749,7 +746,7 @@ document.addEventListener('DOMContentLoaded', function() {
   document.getElementById("cout").innerHTML += `<p>No more quadruples available <br> Total Steps: ${executionNumber-1}<br> Ended with result: ${finalResult}`;
   document.getElementById('cout').scrollTop = cout.scrollHeight;
   return("None Available")
-}
+  }
 
 
 function currentArrayForOutput(cTape, cPPos){
@@ -774,9 +771,9 @@ function registerButton(e){
     del(e);
   }
 }
-function addB(e){
 
-  tempMap = new Map();
+
+function addB(e){
    var qC = parseInt(e.target.dataset.answer);
     qCounter+=1;
     document.getElementById('toInsert').innerHTML += `<div class = "row">
@@ -818,23 +815,15 @@ function addB(e){
     document.getElementsByClassName("p4")[instruction].value = currentArray[i].Position4;
     }
 
-    for (let [key, value] of map) {
-      if(parseInt(key)<=qC){
-        tempMap.set(key, map.get(key));
-      }
-      else {
-        tempMap.set(String(parseInt(key)+1), map.get(key));
-      }
-    }
-
-    map = tempMap;
   }
 
+
 function del(e){
-  tempMap = new Map();
   var qC = parseInt(e.target.dataset.answer);
+  var toRemoveLocation;
   for(i=0;i<currentArray.length;i++){
     if(currentArray[i].InstructionNumber==qC){
+      toRemoveLocation = i;
       currentArray.splice(i, 1);
     }
   }
@@ -884,16 +873,14 @@ function del(e){
    }
 
    for (let [key, value] of map) {
-     if(parseInt(key)<qC){
-       tempMap.set(key, map.get(key));
-     }
-     else if(parseInt(key)>qC){
-       tempMap.set(String(parseInt(key)-1), map.get(key));
-     }
-   }
-
-    map = tempMap;
-}
+    if(value==toRemoveLocation){
+      map.delete(key);
+    }
+    if(value>toRemoveLocation){
+      map.set(key, parseInt(value)-1)
+      }
+    }
+  }
 
 
 function showIns(){
@@ -1009,6 +996,7 @@ function saveImport(){
     isValid=1;
     var fileContentArray = inputFile.split(/\r\n|\n/);
     var i = 0;
+
      fileContentArray.every((line) => {
        var quadToInsert = (line.split(','));
        if((!isNaN(quadToInsert[0])) && ((quadToInsert[1]=="1")||(quadToInsert[1]=="B")||(quadToInsert[1]=="b")) && ((quadToInsert[2]=="1")||(quadToInsert[2]=="B")||(quadToInsert[2]=="b")||(quadToInsert[2]=="R")||(quadToInsert[2]=="r")||(quadToInsert[2]=="L")||(quadToInsert[2]=="l")) && (!isNaN(quadToInsert[3]))){
@@ -1020,8 +1008,7 @@ function saveImport(){
            Position4: quadToInsert[3],
          }
          var inputPair = String(currQuad.Position1 + "_" + currQuad.Position2);
-         const values = [...tMap.values()];
-         if(values.includes(inputPair)){
+         if(map.has(inputPair)){
            isValid=2;
            cArray = [];
            tMap = new Map();
@@ -1031,7 +1018,7 @@ function saveImport(){
            return false;
          }
          else{
-         tMap.set(currQuad.InstructionNumber, inputPair);
+         tMap.set(inputPair, i);
          cArray.push(currQuad);
          i++;
          return true;
@@ -1067,8 +1054,7 @@ function saveImport(){
              Position4: quadToInsert[3],
            }
            var inputPair = String(currQuad.Position1 + "_" + currQuad.Position2);
-           const values = [...tMap.values()];
-           if(values.includes(inputPair)){
+           if(map.has(inputPair)){
              isValid=2;
              cArray = [];
              tMap = new Map();
@@ -1078,7 +1064,7 @@ function saveImport(){
              return false;
            }
            else{
-            tMap.set(currQuad.InstructionNumber, inputPair);
+            tMap.set(inputPair, i);
             cArray.push(currQuad);
             i++;
             return true;
