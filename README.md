@@ -106,7 +106,7 @@ Here, the tape head begins reading the B at the left end of the input string, it
     Entering Quadruples: 
     You can either individually click on the boxes individually, or if you enter a number in a previous box, you can press tab or enter to focus onto the next box. When you arrive at the last box for that quadruple you can press tab/enter again and a new line will be created, or press the large plus button underneath.<br>
     <img src="https://raw.githubusercontent.com/AmritS7/TuringMachineEditor/main/images/TME_newQuad.PNG" alt="drawing"/> <br>
-    If you are focusing on the input box, you can press enter/tab and it will then move down to the first quadruple box. 
+    If you are focusing on the input box, you can press enter/tab and it will then move down to the first quadruple box. <br>
     <img src="https://raw.githubusercontent.com/AmritS7/TuringMachineEditor/main/images/TME_inputEnter.PNG" alt="drawing"/> <br>
     To go to a previous box, click on it. Or if the next box is clear and you press backspace, it will delete the contents of the previous box.<br>
     <img src="https://raw.githubusercontent.com/AmritS7/TuringMachineEditor/main/images/TME_backspace.PNG" alt="drawing"/> <br>
@@ -143,9 +143,13 @@ Here, the tape head begins reading the B at the left end of the input string, it
     Add Marker allows you one click on the tape, where the color of that position is changed to red. Changes back to black/the text color if it is overridden <br>
     <img src="https://raw.githubusercontent.com/AmritS7/TuringMachineEditor/main/images/TME_addMButton.PNG" alt="drawing"/> <br>
     <img src="https://raw.githubusercontent.com/AmritS7/TuringMachineEditor/main/images/TME_addMarker.PNG" alt="drawing"/> <br>
+    You can also add a marker to highlight a singular quadruple line. To do so, press the add marker button and then click inside a input box for that quadruple. <br> 
+    <img src="https://raw.githubusercontent.com/AmritS7/TuringMachineEditor/main/images/TME_addMQuad.png" alt="drawing"/> <br>
     Delete Marker allows you one click on the tape, where the color of that position is changed to black/text color <br>
     <img src="https://raw.githubusercontent.com/AmritS7/TuringMachineEditor/main/images/TME_delMButton.PNG" alt="drawing"/> <br>
     <img src="https://raw.githubusercontent.com/AmritS7/TuringMachineEditor/main/images/TME_deleteMarker.PNG" alt="drawing"/> <br>
+    You can also delete a marker/highlight on a singular quadruple line. To do so, press the delete marker button and then click inside a input box for that quadruple. <br>
+    <img src="https://raw.githubusercontent.com/AmritS7/TuringMachineEditor/main/images/TME_delMQuad.png" alt="drawing"/> <br>
     There is also an indicator telling you whether or not you are in add marker or delete marker mode <br>
     <img src="https://raw.githubusercontent.com/AmritS7/TuringMachineEditor/main/images/TME_markerMode.PNG" alt="drawing"/> <br>
    </li>
