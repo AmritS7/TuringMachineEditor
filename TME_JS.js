@@ -45,7 +45,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
   showInstructions.addEventListener("click", showIns);
 
-  addMarker.addEventListener("click", setHeighlightCounter);
+  addMarker.addEventListener("click", setHighlightCounter);
 
   delMarker.addEventListener("click", setDeleteCounter);
 
@@ -187,8 +187,6 @@ document.addEventListener('DOMContentLoaded', function() {
       document.getElementById('toInsert').disabled = true;
       document.getElementById('newQuad').disabled = true;
       document.getElementById('open').disabled = true;
-      document.getElementById('addMarker').disabled = false;
-      document.getElementById('delMarker').disabled = false;
 
       for(i = 0; i < document.querySelectorAll('.p1').length; i++){
         if( document.getElementsByClassName('p1')[i]!=null){
@@ -218,8 +216,6 @@ document.addEventListener('DOMContentLoaded', function() {
        document.getElementById('toInsert').disabled = false;
        document.getElementById('newQuad').disabled = false;
        document.getElementById('open').disabled = false;
-       document.getElementById('addMarker').disabled = true;
-       document.getElementById('delMarker').disabled = true;
 
        for(i = 0; i < document.querySelectorAll('.p1').length; i++){
          if( document.getElementsByClassName('p1')[i]!=null){
@@ -483,6 +479,7 @@ document.addEventListener('DOMContentLoaded', function() {
       var addedOnLeft = false;
       var inputPair = `${currentStep}_${currentTape[currentPointerPosition].text}`
       var pos = parseInt(map.get(inputPair));
+        try{
           if (currentArray[pos].Position3=="R"){
             currentPointer.unshift("");
             if(currentPointerPosition==currentTape.length-1){
@@ -559,6 +556,8 @@ document.addEventListener('DOMContentLoaded', function() {
           }
           return true;
       }
+      catch (e){}
+    }
 
 
 
@@ -582,6 +581,7 @@ document.addEventListener('DOMContentLoaded', function() {
       var addedOnLeft = false;
       var inputPair = `${currentStep}_${currentTape[currentPointerPosition].text}`
       var pos = parseInt(map.get(inputPair));
+        try{
           if (currentArray[pos].Position3=="R"){
             currentPointer.unshift("");
             if(currentPointerPosition==currentTape.length-1){
@@ -659,7 +659,8 @@ document.addEventListener('DOMContentLoaded', function() {
         }
           return true;
       }
-
+      catch(e) {}
+    }
 
 
     function updateTapeAndPointer(){
@@ -897,13 +898,22 @@ function showIns(){
 
 
 function highlight(e){
-
-
   if(highlightCounter==1){
     if(e.target.classList.contains("inTape")){
       var toModify = e.target.children[0].dataset.answer;
       currentTape[toModify].color = "red";
       e.target.children[0].style.color="red";
+      highlightCounter=0;
+      document.getElementById("markerIndicator").style.visibility = "hidden";
+      document.removeEventListener("click", highlight);
+    }
+    else if(e.target.classList.contains("p1") || e.target.classList.contains("p2") || e.target.classList.contains("p3") ||e.target.classList.contains("p4")){
+      const allInputs = document.querySelectorAll(`input[data-answer="${e.target.dataset.answer}"]`);
+      allInputs.forEach(input => {
+        if(input.value!=""){
+        input.style.color = "red";
+        }
+      });
       highlightCounter=0;
       document.getElementById("markerIndicator").style.visibility = "hidden";
       document.removeEventListener("click", highlight);
@@ -932,7 +942,7 @@ function highlight(e){
   }
 }
 
-function setHeighlightCounter(e){
+function setHighlightCounter(e){
   highlightCounter = 2;
   document.getElementById("markerIndicator").style.visibility = "visible";
   document.getElementById("markerIndicator").style.color = "green";
@@ -952,6 +962,15 @@ function deleteHighlight(e){
       var toModify = e.target.children[0].dataset.answer;
       currentTape[toModify].color = "regular";
       e.target.children[0].style.color="var(--textColor)";
+      deleteCounter=0;
+      document.getElementById("markerIndicator").style.visibility = "hidden";
+      document.removeEventListener("click", deleteHighlight);
+    }
+    else if(e.target.classList.contains("p1") || e.target.classList.contains("p2") || e.target.classList.contains("p3") ||e.target.classList.contains("p4")){
+      const allInputs = document.querySelectorAll(`input[data-answer="${e.target.dataset.answer}"]`);
+      allInputs.forEach(input => {
+        input.style.color = "var(--textColor)";
+      });
       deleteCounter=0;
       document.getElementById("markerIndicator").style.visibility = "hidden";
       document.removeEventListener("click", deleteHighlight);
@@ -1008,7 +1027,7 @@ function saveImport(){
            Position4: quadToInsert[3],
          }
          var inputPair = String(currQuad.Position1 + "_" + currQuad.Position2);
-         if(map.has(inputPair)){
+         if(tMap.has(inputPair)){
            isValid=2;
            cArray = [];
            tMap = new Map();
@@ -1040,6 +1059,7 @@ function saveImport(){
 
     else if(document.getElementById("cpQuads").value!=""){
       var cp = document.getElementById("cpQuads").value;
+      var tMap = new Map();
       isValid=1;
       var cpContent = cp.split(/\r\n|\n/);
       var i = 0;
@@ -1054,7 +1074,7 @@ function saveImport(){
              Position4: quadToInsert[3],
            }
            var inputPair = String(currQuad.Position1 + "_" + currQuad.Position2);
-           if(map.has(inputPair)){
+           if(tMap.has(inputPair)){
              isValid=2;
              cArray = [];
              tMap = new Map();
