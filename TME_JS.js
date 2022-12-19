@@ -406,8 +406,9 @@ document.addEventListener('DOMContentLoaded', function() {
         map.set(inputPair, toRemove);
         }
       }
-
     }
+
+        localStorage.setItem("pastArray", JSON.stringify(currentArray));
   }
 
   function addToArray(e){
@@ -436,6 +437,7 @@ document.addEventListener('DOMContentLoaded', function() {
       map.set(inputPair, length);
     }
   }
+    localStorage.setItem("pastArray", JSON.stringify(currentArray));
 }
   catch(error){}
 }
@@ -469,7 +471,7 @@ document.addEventListener('DOMContentLoaded', function() {
       currentStep=1;
       executionNumber=1;
       tempMap = new Map();
-
+            localStorage.setItem("pastArray", JSON.stringify(currentArray));
     }
 
 
@@ -816,6 +818,7 @@ function addB(e){
     document.getElementsByClassName("p4")[instruction].value = currentArray[i].Position4;
     }
 
+        localStorage.setItem("pastArray", JSON.stringify(currentArray));
   }
 
 
@@ -881,6 +884,7 @@ function del(e){
       map.set(key, parseInt(value)-1)
       }
     }
+        localStorage.setItem("pastArray", JSON.stringify(currentArray));
   }
 
 
@@ -1107,6 +1111,7 @@ function saveImport(){
     clearAll();
     map = tMap;
     currentArray = cArray;
+        localStorage.setItem("pastArray", JSON.stringify(currentArray));
     for(i=0; i<currentArray.length-1;i++){
         addQuadForImport();
     }
@@ -1187,5 +1192,19 @@ function checkUpload(){
        r.style.setProperty('--accentColor', 'Aquamarine');
        r.style.setProperty('--textColor', 'White');
        r.style.setProperty('--btnColor', 'black');
+     }
+      if(localStorage.getItem("pastArray")!=null){
+       currentArray = JSON.parse(localStorage.getItem("pastArray"));
+       for(i=0; i<currentArray.length-1;i++){
+           addQuadForImport();
+       }
+       for(i=0;i<currentArray.length;i++){
+         var instruction = currentArray[i].InstructionNumber;
+         document.getElementsByClassName("p1")[instruction].value = currentArray[i].Position1;
+         document.getElementsByClassName("p2")[instruction].value = currentArray[i].Position2;
+         document.getElementsByClassName("p3")[instruction].value = currentArray[i].Position3;
+         document.getElementsByClassName("p4")[instruction].value = currentArray[i].Position4;
+         map.set(`${currentArray[i].Position1}_${currentArray[i].Position2}`, i);
+       }
      }
    }
