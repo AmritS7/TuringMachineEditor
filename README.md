@@ -193,8 +193,11 @@ Here, the tape head begins reading the B at the left end of the input string, it
     <img src="https://raw.githubusercontent.com/AmritS7/TuringMachineEditor/main/images/TME_sliderDark.PNG" alt="drawing"/> <br>
     <img src="https://raw.githubusercontent.com/AmritS7/TuringMachineEditor/main/images/TME_light.PNG" alt="drawing"/> <br>
     <img src="https://raw.githubusercontent.com/AmritS7/TuringMachineEditor/main/images/TME_dark.PNG" alt="drawing"/> <br>
-  
-
+   </li>
+   <li>
+    Page Loading: <br>
+    The Turing Machine uses a localstorage to save your most recent quadruples. If you reload the page, it will autofill the quadruples from your last session. 
+   </li>
   
 
 
