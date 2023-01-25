@@ -19,6 +19,8 @@ document.querySelector("meta[name=viewport]").setAttribute("content", "width=dev
 
 document.addEventListener('DOMContentLoaded', function() {
 
+  osCheck();
+
   storageCheck();
 
   colorSwitch.addEventListener('change', colorChange);
@@ -1207,4 +1209,10 @@ function checkUpload(){
          map.set(`${currentArray[i].Position1}_${currentArray[i].Position2}`, i);
        }
      }
+   }
+
+   function osCheck(){
+    if(navigator.userAgent.indexOf("Mac") != -1){
+             document.body.style.zoom = "90%";
+    }
    }
