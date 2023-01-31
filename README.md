@@ -4,95 +4,6 @@
 A webapp designed to help visualize how Turing Machines work. Created for academic use in high level education. Inspired by Dr. Ronald Fechter. You can directly view the website at: <br>
 https://amrits7.github.io/TuringMachineEditor/ 
 
-## Turing Machines - What are they?
-
-Here are some fundamentals about Turing Machines:
-
-<ol>
-  <li>
-    A Turing Machine (invented by Alan Turing in a paper published in 1936) is an abstract machine designed to express (i.e. DEFINE) the meaning—in general—of an algorithm for computing on numbers.
-  </li>
-  <li>
-    Main components of a Turing Machine:
-    <ul>
-      <li>
-        an infinite tape, divided into sections;
-      </li>
-      <li>
-        a finite tape alphabet, s1, s2, ..., sn, consisting of symbols that can be printed on the sections of the tape;
-      </li>
-      <li>
-        a tape head, that can move, right or left—one section at a time—along the tape, or else can print a symbol on the section currently being scanned (thereby erasing what was previously printed there);
-      </li>
-      <li>
-        the Turing Machine is capable of a finite number of "internal states" which are symbolized: q1, q2, . . . , qn; by convention, q1 is always the "starting state";
-      </li>
-      <li>
-        a "program" consists of a finite number of "quadruples" of any one of the following three forms:
-       </li>
-         <ul>
-           <li>
-             qi sj R qm means: when in state qi, reading sj, move Right one section, and go into state qm
-           </li>
-           <li>
-             qi sj L qm means: when in state qi, reading sj, move Left one section, and go into state qm
-           </li>
-           <li>
-            qi sj sk qm means: when in state qi, reading sj, print sk, and go into state qm (note: printing sk erases sj)
-           </li>
-         </ul>
-         </ul>        
-Note: in the above 3 types of quadruples,  qi  and  qm may be the same state (i.e.,  qi  may equal  qm) 
-            
-</li>
-<li>
-Conventions for input and output:
-  <ul>
-    <li>
-       for this brief introduction, we will assume that the tape alphabet consists of just 'B' (stands for "blank") and '1' ; we will represent numbers by multiple strokes of 1 (on successive sections of the tape), so 1 = 1; 2 = 11; 3 = 111; 4 = 1111, etc. (this is referred to as a unary number system)
-    </li>
-    <li>
-      Key Assumption: At any given time, all but a finite number of sections of the tape contain 'B'
-    </li>
-    <li>
-      the inputs will be represented by a sequence of numbers (multiple strokes of 1) on the tape, each input separated by a single B (blank) from the next input;
-    </li>
-    <li>
-      the machine will begin in state q1 with the tape head scanning a B (blank) immediately to the left of the first input;
-    
-    
-example 1: the inputs are 2 and 3; the initial tape is:  B 1 1 B 1 1 1 B, with the tape head scanning the B on the left (all other sections of the tape are B);
-    
-example 2: the inputs are 3, 1, and 4; the initial tape is:  B 1 1 1 B 1 B 1 1 1 1 B, with the tape head scanning the B on the left (all other sections of the tape are B);
-   
-example 3: the (single) input is 5; the initial tape is B 1 1 1 1 1 B, with the tape head scanning the B on the left (all other sections of the tape are B).
-    </li>
-    <li>
-      the output is a single string of 1's on the tape (no embedded blanks), with the tape head scanning the B immediately to the left of the output string (all other sections of the tape are B).
-    </li>
-    <li>
-      in order to simplify the presentation, we will assume that all inputs are positive integers:  i.e., for each input xi, we assume that xi ≥ 1.
-    </li>
-   </ul>
- </li>
- <li>
-  A TURING MACHINE HALTS WHEN THE TAPE HEAD IS SCANNING A SECTION OF TAPE, READING EITHER B OR 1, WHILE CURRENTLY IN STATE qi—BUT THERE IS NO QUADRUPLE BEGINNING EITHER WITH   'qi B'  OR  'qi 1' (respectively). In other words, if the machine is in state qi reading a B and there is no quadruple in the machine beginning qi B then it halts; and if the machine is in state qi reading a 1 and there is no quadruple in the machine beginning qi 1 then it halts.
-</li>
-<li>
-Example: Write a Turing Machine (program) which computes the function f(x) = x + 1. The input will be a single string x, with x ≥ 1, and the output will be x + 1. The following simple program computes the function f:
-
-  q1 B R q2
-
-  q2 1 R q2
-
-  q2 B 1 q3
-
-  q3 1 L q3
-
-Here, the tape head begins reading the B at the left end of the input string, it moves one square to the right, then it moves right as long as it reads a 1 (the second quadruple is executed repeatedly while 1's are being read), then when it reaches a B at the right end of the input it prints a 1 (thus adding 1 to the length of the input string), then it moves left as long as it reads 1's, until it reached the B at the left end–at which point the machine halts because there is no quadruple beginning with q3 B.
-</li>
-</ol>
-
 ## Documentation
 <ul>
   <li>
@@ -198,8 +109,96 @@ Here, the tape head begins reading the B at the left end of the input string, it
     Page Loading: <br>
     The Turing Machine uses a localstorage to save your most recent quadruples. If you reload the page, it will autofill the quadruples from your last session. 
    </li>
-  
+ </ul>
+ 
+## Turing Machines - What are they?
 
+Here are some fundamentals about Turing Machines:
+
+<ol>
+  <li>
+    A Turing Machine (invented by Alan Turing in a paper published in 1936) is an abstract machine designed to express (i.e. DEFINE) the meaning—in general—of an algorithm for computing on numbers.
+  </li>
+  <li>
+    Main components of a Turing Machine:
+    <ul>
+      <li>
+        an infinite tape, divided into sections;
+      </li>
+      <li>
+        a finite tape alphabet, s1, s2, ..., sn, consisting of symbols that can be printed on the sections of the tape;
+      </li>
+      <li>
+        a tape head, that can move, right or left—one section at a time—along the tape, or else can print a symbol on the section currently being scanned (thereby erasing what was previously printed there);
+      </li>
+      <li>
+        the Turing Machine is capable of a finite number of "internal states" which are symbolized: q1, q2, . . . , qn; by convention, q1 is always the "starting state";
+      </li>
+      <li>
+        a "program" consists of a finite number of "quadruples" of any one of the following three forms:
+       </li>
+         <ul>
+           <li>
+             qi sj R qm means: when in state qi, reading sj, move Right one section, and go into state qm
+           </li>
+           <li>
+             qi sj L qm means: when in state qi, reading sj, move Left one section, and go into state qm
+           </li>
+           <li>
+            qi sj sk qm means: when in state qi, reading sj, print sk, and go into state qm (note: printing sk erases sj)
+           </li>
+         </ul>
+         </ul>        
+Note: in the above 3 types of quadruples,  qi  and  qm may be the same state (i.e.,  qi  may equal  qm) 
+            
+</li>
+<li>
+Conventions for input and output:
+  <ul>
+    <li>
+       for this brief introduction, we will assume that the tape alphabet consists of just 'B' (stands for "blank") and '1' ; we will represent numbers by multiple strokes of 1 (on successive sections of the tape), so 1 = 1; 2 = 11; 3 = 111; 4 = 1111, etc. (this is referred to as a unary number system)
+    </li>
+    <li>
+      Key Assumption: At any given time, all but a finite number of sections of the tape contain 'B'
+    </li>
+    <li>
+      the inputs will be represented by a sequence of numbers (multiple strokes of 1) on the tape, each input separated by a single B (blank) from the next input;
+    </li>
+    <li>
+      the machine will begin in state q1 with the tape head scanning a B (blank) immediately to the left of the first input;
+    
+    
+example 1: the inputs are 2 and 3; the initial tape is:  B 1 1 B 1 1 1 B, with the tape head scanning the B on the left (all other sections of the tape are B);
+    
+example 2: the inputs are 3, 1, and 4; the initial tape is:  B 1 1 1 B 1 B 1 1 1 1 B, with the tape head scanning the B on the left (all other sections of the tape are B);
+   
+example 3: the (single) input is 5; the initial tape is B 1 1 1 1 1 B, with the tape head scanning the B on the left (all other sections of the tape are B).
+    </li>
+    <li>
+      the output is a single string of 1's on the tape (no embedded blanks), with the tape head scanning the B immediately to the left of the output string (all other sections of the tape are B).
+    </li>
+    <li>
+      in order to simplify the presentation, we will assume that all inputs are positive integers:  i.e., for each input xi, we assume that xi ≥ 1.
+    </li>
+   </ul>
+ </li>
+ <li>
+  A TURING MACHINE HALTS WHEN THE TAPE HEAD IS SCANNING A SECTION OF TAPE, READING EITHER B OR 1, WHILE CURRENTLY IN STATE qi—BUT THERE IS NO QUADRUPLE BEGINNING EITHER WITH   'qi B'  OR  'qi 1' (respectively). In other words, if the machine is in state qi reading a B and there is no quadruple in the machine beginning qi B then it halts; and if the machine is in state qi reading a 1 and there is no quadruple in the machine beginning qi 1 then it halts.
+</li>
+<li>
+Example: Write a Turing Machine (program) which computes the function f(x) = x + 1. The input will be a single string x, with x ≥ 1, and the output will be x + 1. The following simple program computes the function f:
+
+  q1 B R q2
+
+  q2 1 R q2
+
+  q2 B 1 q3
+
+  q3 1 L q3
+
+Here, the tape head begins reading the B at the left end of the input string, it moves one square to the right, then it moves right as long as it reads a 1 (the second quadruple is executed repeatedly while 1's are being read), then when it reaches a B at the right end of the input it prints a 1 (thus adding 1 to the length of the input string), then it moves left as long as it reads 1's, until it reached the B at the left end–at which point the machine halts because there is no quadruple beginning with q3 B.
+</li>
+</ol>
 
 
 
