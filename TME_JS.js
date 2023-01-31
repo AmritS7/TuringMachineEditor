@@ -116,6 +116,26 @@ document.addEventListener('DOMContentLoaded', function() {
         alert("Please enter an input!");
       }
       else{
+      for(i=0; i<document.querySelectorAll('.p1').length; i++){
+        if (document.getElementsByClassName('p1')[i]!=null && document.getElementsByClassName('p2')[i]!=null && document.getElementsByClassName('p3')[i]!=null && document.getElementsByClassName('p4')[i]!=null){
+          if (document.getElementsByClassName('p1')[i].value!="" && document.getElementsByClassName('p2')[i].value!="" && document.getElementsByClassName('p3')[i].value!="" && document.getElementsByClassName('p4')[i].value!=""){
+          var inputPair = String(document.getElementsByClassName("p1")[i].value) + "_" + String(document.getElementsByClassName("p2")[i].value.toUpperCase());
+          if(!map.has(inputPair)){
+            var currQuad = {
+              InstructionNumber: String(i),
+              Position1: document.getElementsByClassName("p1")[i].value,
+              Position2: document.getElementsByClassName("p2")[i].value.toUpperCase(),
+              Position3: document.getElementsByClassName("p3")[i].value.toUpperCase(),
+              Position4: document.getElementsByClassName("p4")[i].value,
+            }
+            currentArray.push(currQuad);
+            var length = currentArray.length-1;
+            map.set(inputPair, length);
+            localStorage.setItem("pastArray", JSON.stringify(currentArray));
+          }
+        }
+        }
+      }
       var inputList = document.querySelector("#input").value.split(',');
       for(i=0; i<inputList.length; i++){
         if(! (/^\d+$/.test(inputList[i]))){
