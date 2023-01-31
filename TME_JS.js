@@ -1217,7 +1217,13 @@ function checkUpload(){
      }
       if(localStorage.getItem("pastArray")!=null){
        currentArray = JSON.parse(localStorage.getItem("pastArray"));
-       for(i=0; i<currentArray.length-1;i++){
+       var max=-1
+       for(i=0; i<currentArray.length; i++){
+         if(currentArray[i].InstructionNumber>max){
+          max=parseInt(currentArray[i].InstructionNumber);
+         }
+       }
+       for(i=0; i<max;i++){
            addQuadForImport();
        }
        for(i=0;i<currentArray.length;i++){
