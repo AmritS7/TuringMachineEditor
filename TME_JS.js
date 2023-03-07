@@ -538,6 +538,7 @@ document.addEventListener('DOMContentLoaded', function() {
             currentTape[currentPointerPosition] = tapeOutput;
             if(currentPointerPosition==0){
                 currentPointer.unshift("");
+                currentPointerPosition++;
                 tapeOutput = {
                   text: "B",
                   color: "regular"
@@ -640,6 +641,7 @@ document.addEventListener('DOMContentLoaded', function() {
             currentTape[currentPointerPosition] = tapeOutput;
             if(currentPointerPosition==0){
                 currentPointer.unshift("");
+                currentPointerPosition++;
                 tapeOutput = {
                   text: "B",
                   color: "regular"
