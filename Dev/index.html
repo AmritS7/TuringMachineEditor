@@ -1,0 +1,173 @@
+<html>
+   <head>
+     <title>Turing Machine Editor </title>
+     <meta charset="utf-8">
+     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/css/bootstrap.min.css">
+     <script src="https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.slim.min.js"></script>
+     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
+     <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/js/bootstrap.bundle.min.js"></script>
+     <script src="https://cdn.jsdelivr.net/npm/handlebars@latest/dist/handlebars.js"></script>
+     <link rel="stylesheet" href="./TME_CSS.css">
+     <script src="./TME_JS.js"></script>
+     <script src="https://cdn.jsdelivr.net/g/filesaver.js"></script>
+     <link rel="icon" href="https://raw.githubusercontent.com/AmritS7/TuringMachineEditor/main/images/TME_icon.png">
+   </head>
+
+
+
+   <body data-spy="scroll" data-target=".navbar" data-offset="110">
+
+     <!--NavBar-->
+     <div id = "navbar">
+        <nav class="navbar navbar-expand-lg bgNavColor fixed-top">
+            <a class="navbar-brand" href="#" style="font-weight:bold;">Turing Machine Editor</a>
+            <label class="switch">
+              <input type="checkbox" id="colorSwitch">
+              <span class="slider round"></span>
+            </label>
+       </nav>
+     </div>
+
+
+
+    <div class = "containerfluid">
+      <!--Left Column for user Entry-->
+        <div class = "row" style="height:100%">
+          <div id = "leftCol" class = "col-sm-3">
+            <div id="inputCol">
+              <input id="input" type="text" placeholder="Enter input: ex 2,3" autocomplete="off"> <p style="visibility:hidden">.<p>
+            </div>
+              <div id = "userEntry" class="col-sm-12">
+                <div class = "table scrollbar scrollbar-info" id = "quadTable">
+                  <div class = "row">
+                    <div class = "col-1" style="max-width:11%;flex-basis:11;%">
+                      <p class = "instrucNumber" style="visibility:hidden;">1</p>
+                    </div>
+                    <div class = "col-2">
+                      <input type= "number" class = "p1" data-action="answer" data-answer="0"/> <p>,</p>
+                    </div>
+                    <div class = "col-2">
+                      <input type= "text" class = "p2" maxlength="1" onkeyup="checkEntryp2(this)" data-action="answer" data-answer="0"/> <p>,</p>
+                    </div>
+                    <div class = "col-2">
+                      <input type= "text" class = "p3" maxlength="1" onkeyup="checkEntryp3(this)" data-action="answer" data-answer="0"/> <p>,</p>
+                    </div>
+                    <div class = "col-2">
+                      <input type= "number" class = "p4" data-action="answer" data-answer="0"/>
+                    </div>
+                    <div class = "col-2">
+                      <div class="btn-group" id="entryButtons">
+                        <button type="button" class="addBetween" class="btn"  data-action="answer" data-answer="0"> &#43;</button>
+                        <button type="button" class="delete" class="btn"  data-action="answer" data-answer="0"> &#0215;</button>
+                     </div>
+                    </div>
+                  </div>
+                  <div id="toInsert">
+                  </div>
+                </div>
+                <button id = "newQuad"> + </button>
+              </div>
+
+
+
+
+
+              <div id = "buttonBar" class="col-sm-12">
+                <div id="mainbgroup" class="btn-group">
+                  <button type="button" id="clear" class="btn">Clear</button>
+                  <button type="button" id="start" class="btn">Start</button>
+               </div>
+            </div>
+
+          </div>
+
+
+
+        <div id = "rightCol" class = "col-sm-9">
+
+
+
+          <div id = "description" class = "col-sm-12">
+            <h3 style="padding-top:10px">Turing Machine Editor</h3>
+            <h5 style="text-align:center;">Created by: Amritpal Singh</h5>
+            <h5 style="text-align:center;">Inspired by: Professor Ronald Fechter Ph.D</h5>
+          </div>
+
+
+
+
+          <div id = "importExport" class = "col-sm-12">
+                <button type="button" id="showInstructions" class="btn" style="margin-left:0px">Show Instructions</button>
+                <button type="button" id="addMarker" class="btn">Add Marker</button>
+                <button type="button" id="delMarker" class="btn">Delete Marker</button>
+                <span id="markerIndicator" style="visibility:hidden;">&#11044;</span>
+
+
+                <button type="button" id="about" class="btn" style="float:right; margin-right:0px" onclick="window.open('https://github.com/AmritS7/TuringMachineEditor','_blank')">About</button>
+                <button type="button" id="save" class="btn" style="float:right; margin-right:2px" onclick="toggleDownload()">Save</button>
+                <button type="button" id="open" class="btn" style="float:right; margin-right:2px" onclick="clearModal()" data-toggle="modal" data-target="#openModal">Open</button>
+
+
+
+          </div>
+
+
+
+
+          <div id = "tapeInfo" class = "col-sm-12">
+            <h4>Tape Information:</h4>
+            <h5>Previous Quadruple: <span id="pQuad"></span></h5>
+            <h5>Current State: <span id="cState"></span></h5>
+            <h5 style="margin-bottom:0px;">Next Quadruple: <span id="nQuad"></span></h5>
+            <div id = pointerAndTape class="scrollbar scrollbar-info2">
+            <div id="pointer"></div>
+            <div id="tape"></div>
+          </div>
+          </div>
+
+
+
+
+          <div id = "console" class = "col-sm-12">
+             <h4>Result: <span id = "result"></span></h4>
+             <h6>Console:</h6>
+             <div id="cout" class="scrollbar scrollbar-info"></div>
+          </div>
+          </div>
+
+
+        </div>
+        </div>
+
+
+
+    <div id="openModal" class="modal fade" role="dialog">
+        <div class="modal-dialog">
+
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title">Open</h4>
+        <button type="button" class="close" data-dismiss="modal" style="color:var(--textColor)">&times;</button>
+      </div>
+      <div class="modal-body">
+        <p>Import a File (only accepts .txt):</p>
+        <input type="file" id="upload" accept=".txt" />
+        <hr>
+
+      <p>Or copy and paste below:</p>
+      <textarea id="cpQuads" placeholder="Enter Quadruples..." rows="20" cols="67"></textarea>
+
+
+      </div>
+      <div class="modal-footer">
+        <button type="button" onclick="saveImport()" class="btn btn-default">Save</button>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+</body>
+</html>
