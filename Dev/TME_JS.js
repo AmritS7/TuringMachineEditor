@@ -53,6 +53,8 @@ document.addEventListener('DOMContentLoaded', function() {
 
   upload.addEventListener("change", checkUpload);
 
+  document.body.style.overflow = "hidden";
+
 });
 
 
