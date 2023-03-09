@@ -123,6 +123,7 @@ document.addEventListener('DOMContentLoaded', function() {
       var allNumbers = true;
       if(document.querySelector("#input").value==""){
         alert("Please enter an input!");
+        input.focus();
       }
       else{
       for(i=0; i<document.querySelectorAll('.p1').length; i++){
