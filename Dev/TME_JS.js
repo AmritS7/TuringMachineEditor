@@ -145,7 +145,8 @@ document.addEventListener('DOMContentLoaded', function() {
         }
         }
       }
-      var inputList = document.querySelector("#input").value.split(',');
+      var inp = document.querySelector("#input").value.trim();
+      var inputList = inp.split(',');
       for(i=0; i<inputList.length; i++){
         if(! (/^\d+$/.test(inputList[i]))){
           allNumbers=false;
