@@ -179,6 +179,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
       if(!allNumbers){
         alert("All inputs must be numbers seperated by a comma")
+        input.focus();
       }
       else{
         currentPointer.push('p');
