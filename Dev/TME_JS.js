@@ -53,6 +53,8 @@ document.addEventListener('DOMContentLoaded', function() {
 
   upload.addEventListener("change", checkUpload);
 
+  document.addEventListener("keyup", startCheck);
+
   document.body.style.overflow = "hidden";
 
 });
@@ -105,7 +107,12 @@ document.addEventListener('DOMContentLoaded', function() {
       }
    }
 
-
+    function startCheck(event){
+      if(event.key == "Shift"){
+        document.activeElement.blur();
+        setupTape();
+      }
+    }
 
     function setupTape() {
       currentTape = [];
@@ -208,6 +215,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
     function disableEdit(){
       document.addEventListener("keyup", registerKeys);
+      document.removeEventListener("keyup", startCheck);
 
       document.getElementById('input').disabled = true;
       document.getElementById('toInsert').disabled = true;
@@ -240,7 +248,8 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     function enableEdit(){
-        document.removeEventListener("keyup", registerKeys)
+        document.removeEventListener("keyup", registerKeys);
+        document.addEventListener("keyup", startCheck);
 
         document.getElementById("pQuad").innerHTML = "";
         document.getElementById("cState").innerHTML = "";
@@ -274,6 +283,8 @@ document.addEventListener('DOMContentLoaded', function() {
        document.querySelector("#tape").innerHTML="";
        start.addEventListener("click", setupTape);
        clear.addEventListener("click", clearAll);
+       document.getElementById("input").focus();
+
     }
 
     function colorChange(){
