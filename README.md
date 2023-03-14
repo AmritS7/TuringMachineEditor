@@ -114,10 +114,10 @@ https://amrits7.github.io/TuringMachineEditor/
     There are a variety of additional shortcuts for ease of access when running and editing. They are listed below: <br>
       <ul>
         <li>
-        When editing you can press **SHIFT** to start the tape, same execution as when you press the start button
+        When editing you can press SHIFT to start the tape, same execution as when you press the start button
         </li>
         <li>
-        After you've started you can press **BACKSPACE**, **SPACE** or **ENTER**, which enable editing, step or run respectively.  
+        After you've started you can press BACKSPACE, SPACE or ENTER, which enable editing, step or run respectively.  
         </li>
       </ul>
    </li>
