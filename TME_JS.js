@@ -53,6 +53,10 @@ document.addEventListener('DOMContentLoaded', function() {
 
   upload.addEventListener("change", checkUpload);
 
+  document.addEventListener("keyup", startCheck);
+
+  document.body.style.overflow = "hidden";
+
 });
 
 
@@ -103,7 +107,12 @@ document.addEventListener('DOMContentLoaded', function() {
       }
    }
 
-
+    function startCheck(event){
+      if(event.key == "Shift"){
+        document.activeElement.blur();
+        setupTape();
+      }
+    }
 
     function setupTape() {
       currentTape = [];
@@ -114,6 +123,7 @@ document.addEventListener('DOMContentLoaded', function() {
       var allNumbers = true;
       if(document.querySelector("#input").value==""){
         alert("Please enter an input!");
+        input.focus();
       }
       else{
       for(i=0; i<document.querySelectorAll('.p1').length; i++){
@@ -136,7 +146,8 @@ document.addEventListener('DOMContentLoaded', function() {
         }
         }
       }
-      var inputList = document.querySelector("#input").value.split(',');
+      var inp = document.querySelector("#input").value.trim();
+      var inputList = inp.split(',');
       for(i=0; i<inputList.length; i++){
         if(! (/^\d+$/.test(inputList[i]))){
           allNumbers=false;
@@ -169,6 +180,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
       if(!allNumbers){
         alert("All inputs must be numbers seperated by a comma")
+        input.focus();
       }
       else{
         currentPointer.push('p');
@@ -205,6 +217,9 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     function disableEdit(){
+      document.addEventListener("keyup", registerKeys);
+      document.removeEventListener("keyup", startCheck);
+
       document.getElementById('input').disabled = true;
       document.getElementById('toInsert').disabled = true;
       document.getElementById('newQuad').disabled = true;
@@ -221,7 +236,24 @@ document.addEventListener('DOMContentLoaded', function() {
        }
       }
     }
+
+    function registerKeys(event){
+      console.log(event)
+      if(event.key == " "){
+        doStep()
+      }
+      else if (event.key == "Enter"){
+        doRun()
+      }
+      else if (event.key == "Backspace"){
+        enableEdit()
+      }
+    }
+
     function enableEdit(){
+        document.removeEventListener("keyup", registerKeys);
+        document.addEventListener("keyup", startCheck);
+
         document.getElementById("pQuad").innerHTML = "";
         document.getElementById("cState").innerHTML = "";
         document.getElementById("nQuad").innerHTML = "";
@@ -254,6 +286,8 @@ document.addEventListener('DOMContentLoaded', function() {
        document.querySelector("#tape").innerHTML="";
        start.addEventListener("click", setupTape);
        clear.addEventListener("click", clearAll);
+       document.getElementById("input").focus();
+
     }
 
     function colorChange(){
