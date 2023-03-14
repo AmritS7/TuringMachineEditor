@@ -109,6 +109,18 @@ https://amrits7.github.io/TuringMachineEditor/
     Page Loading: <br>
     The Turing Machine uses a localstorage to save your most recent quadruples. If you reload the page, it will autofill the quadruples from your last session. 
    </li>
+   <li>
+    Shortcuts: <br>
+    There are a variety of additional shortcuts for ease of access when running and editing. They are listed below: <br>
+      <ul>
+        <li>
+        When editing you can press **SHIFT** to start the tape, same execution as when you press the start button
+        </li>
+        <li>
+        After you've started you can press **BACKSPACE**, **SPACE** or **ENTER**, which enable editing, step or run respectively.  
+        </li>
+      </ul>
+   </li>
  </ul>
  
 ## Turing Machines - What are they?
