@@ -89,16 +89,42 @@
 
 
           <div id = "description" class = "col-sm-12">
-            <h3 style="padding-top:10px">Turing Machine Editor</h3>
-            <h5 style="text-align:center;">Created by: Amritpal Singh</h5>
-            <h5 style="text-align:center;">Inspired by: Professor Ronald Fechter Ph.D</h5>
+            <div class="row"> 
+              <div class="col-3">
+              </div>
+              <div class = "col-6">
+                <h3 style="padding-top:10px">Turing Machine Editor</h3>
+                <h5 style="text-align:center;">Created by: Amritpal Singh</h5>
+                <h5 style="text-align:center;">Inspired by: Professor Ronald Fechter Ph.D</h5>
+              </div>
+              <div class = "col-3" id="shortcut" style="visibility: hidden;">
+               <h4 style="text-align:center; margin-bottom:0px;">Shortcuts</h4>
+              <div class="row">
+                <div class="col-6" style="border-right:1px black solid;">
+                  <h6 style="text-decoration:underline">Before Start:</h6>
+                    <div class="ul">
+                      <li>Enter - Next Box/ Quadruple</li>
+                      <li>Shift - Start </li>
+                    </div>
+                </div>
+                <div class="col-6" style="border-left:1px black solid;">
+                  <h6 style="text-decoration:underline">After Start:</h6>
+                    <div class="ul">
+                      <li>Backspace - Edit</li>
+                      <li>Space - Step </li>
+                      <li>Enter - Run </li>
+                    </div>
+                </div>
+              </div>
+              </div>
+            </div>
           </div>
-
 
 
 
           <div id = "importExport" class = "col-sm-12">
                 <button type="button" id="showInstructions" class="btn" style="margin-left:0px">Show Instructions</button>
+                <button type="button" id="showShortcuts" class="btn">Show Shortcuts</button>
                 <button type="button" id="addMarker" class="btn">Add Marker</button>
                 <button type="button" id="delMarker" class="btn">Delete Marker</button>
                 <span id="markerIndicator" style="visibility:hidden;">&#11044;</span>
