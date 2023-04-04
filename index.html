@@ -8,8 +8,8 @@
      <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
      <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/js/bootstrap.bundle.min.js"></script>
      <script src="https://cdn.jsdelivr.net/npm/handlebars@latest/dist/handlebars.js"></script>
-     <link rel="stylesheet" href="TME_CSS.css">
-     <script src="TME_JS.js"></script>
+     <link rel="stylesheet" href="./TME_CSS.css">
+     <script src="./TME_JS.js"></script>
      <script src="https://cdn.jsdelivr.net/g/filesaver.js"></script>
      <link rel="icon" href="https://raw.githubusercontent.com/AmritS7/TuringMachineEditor/main/images/TME_icon.png">
    </head>
@@ -89,16 +89,38 @@
 
 
           <div id = "description" class = "col-sm-12">
-            <h3 style="padding-top:10px">Turing Machine Editor</h3>
-            <h5 style="text-align:center;">Created by: Amritpal Singh</h5>
-            <h5 style="text-align:center;">Inspired by: Professor Ronald Fechter Ph.D</h5>
+            <div class="row"> 
+              <div class="col-3">
+              </div>
+              <div class = "col-6">
+                <h3 style="padding-top:10px">Turing Machine Editor</h3>
+                <h5 style="text-align:center;">Created by: Amritpal Singh</h5>
+                <h5 style="text-align:center;">Inspired by: Professor Ronald Fechter Ph.D</h5>
+              </div>
+              <div class = "col-3" id="shortcut" style="visibility: hidden;">
+               <h5 style="text-align:center; margin-bottom:0px;">Shortcuts</h5>
+              <div class="row">
+                <div class="col-6" style="border-right:1px black solid;">
+                  <h6 style="text-decoration:underline; margin-bottom:0px;">Before Start:</h6>
+                      <p style="margin-bottom:0px;">Enter->Next Box</p>
+                      <p style="margin-bottom:0px;">Shift->Start </p>
+                </div>
+                <div class="col-6" style="border-left:1px black solid;">
+                  <h6 style="text-decoration:underline; margin-bottom:0px;">After Start:</h6>
+                      <p style="margin-bottom:0px;">Backspace->Edit</p>
+                      <p style="margin-bottom:0px;">Space->Step </p>
+                      <p style="margin-bottom:0px;">Enter->Run </p>
+                </div>
+              </div>
+              </div>
+            </div>
           </div>
-
 
 
 
           <div id = "importExport" class = "col-sm-12">
                 <button type="button" id="showInstructions" class="btn" style="margin-left:0px">Show Instructions</button>
+                <button type="button" id="showShortcuts" class="btn">Show Shortcuts</button>
                 <button type="button" id="addMarker" class="btn">Add Marker</button>
                 <button type="button" id="delMarker" class="btn">Delete Marker</button>
                 <span id="markerIndicator" style="visibility:hidden;">&#11044;</span>
