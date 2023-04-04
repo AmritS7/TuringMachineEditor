@@ -11,6 +11,7 @@ var currentStep=1;
 var executionNumber=1;
 var tempMap = new Map();
 var instrucVisible = "hidden";
+var shortcutVisible = "hidden";
 var highlightCounter = 0;
 var deleteCounter = 0;
 var inputFile = "";
@@ -46,6 +47,8 @@ document.addEventListener('DOMContentLoaded', function() {
   clear.addEventListener("click", clearAll);
 
   showInstructions.addEventListener("click", showIns);
+
+  showShortcuts.addEventListener("click", showSh);
 
   addMarker.addEventListener("click", setHighlightCounter);
 
@@ -958,6 +961,17 @@ function showIns(){
   }
 }
 
+function showSh(){
+
+  if(shortcutVisible=="hidden"){
+    shortcutVisible="visible"
+    shortcut.style.visibility = "visible";
+  }
+  else{
+    shortcutVisible = "hidden"
+    shortcut.style.visibility = "hidden";
+  }
+}
 
 function highlight(e){
   if(highlightCounter==1){
