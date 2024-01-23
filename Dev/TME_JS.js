@@ -1240,20 +1240,30 @@ function checkUpload(){
      </div>`;
    }
 
-   function toggleDownload(){
-     var textToDownload = "";
-     if(currentArray.length>0){
-       for(i=0;i<currentArray.length;i++){
-         textToDownload+= currentArray[i].Position1 + "," + currentArray[i].Position2 + "," + currentArray[i].Position3 + "," +currentArray[i].Position4 + "\n";
-       }
-     var blob = new Blob([textToDownload],
-                { type: "text/plain;charset=utf-8" });
-                  saveAs(blob, "TMEQuadruples.txt");
+   function toggleDownload() {
+    if (currentArray.length > 0) {
+        var textToDownload = "";
+        for (var i = 0; i < currentArray.length; i++) {
+            textToDownload += currentArray[i].Position1 + "," + currentArray[i].Position2 + "," + currentArray[i].Position3 + "," + currentArray[i].Position4 + "\n";
+        }
+
+        var blob = new Blob([textToDownload], { type: "text/plain;charset=utf-8" });
+        var a = document.createElement('a');
+        a.href = window.URL.createObjectURL(blob);
+        a.download = "TMEQuadruples.txt";
+
+        // Append the anchor element to the body
+        document.body.appendChild(a);
+
+        // Programmatically trigger a click on the anchor element
+        a.click();
+
+        // Remove the anchor element from the DOM
+        document.body.removeChild(a);
+    } else {
+        alert("No quadruples available for download");
     }
-    else{
-      alert("No quadruples available for download")
-    }
-   }
+  }
 
    function storageCheck(){
      if(localStorage.getItem("color")=="dark"){
